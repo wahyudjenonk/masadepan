@@ -1,0 +1,13 @@
+{assign var="readonly" value={$read|default:''}}
+<div class="control-group">
+	<label class="control-label" for="form-field-1">{$label}</label>
+	<div class="controls">
+	{if $type eq 'select'}
+		<select id="form-field-select-1" id="{$id}" name="{$name}">
+			{$option|default:''}
+		</select>
+	{elseif $type eq 'text'}
+		<input {$readonly} type="text" class="span8" id="{$id}" name="{$name}" value="{$value|default:''}" />
+	{/if}
+	</div>
+</div>

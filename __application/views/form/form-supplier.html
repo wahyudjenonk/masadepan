@@ -1,0 +1,24 @@
+<fieldset>
+	<legend>Form Supplier</legend>
+<div class="span12">
+	<form class="form-horizontal" id="form_supplier" url="{$host}backend/simpan_data/tbl_{$main}" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$data.id|default:''}">
+		<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
+		
+		{include file="template/input_form.html" type='text' label="Nama Supplier" id="nama_supplier" name="nama_supplier" value="{$data.nama_supplier|default:''}" }
+		{include file="template/input_form.html" type='text' label="No. Telp / Handphone" id="no_telp" name="no_telp" value="{$data.no_telp|default:''}" }
+		{include file="template/input_form.html" type='text' label="Email" id="email" name="email" value="{$data.email|default:''}" }
+		<div class="control-group">
+			<label class="control-label" for="form-field-1">Alamat Supplier</label>
+			<div class="controls">
+				<textarea class="span10" id="alamat_supplier" cols='15' rows='10' name="alamat_suppler">{$data.alamat_suppler|default:''}</textarea>
+			</div>
+		</div>		
+		<div class="control-group">
+			<label class="control-label" for="form-field-1"></label>
+			<div class="controls">
+				{include file="template/button_save.html" id_simpan="simpan_{$main}" id_batal="batal_{$main}" }
+			</div>
+		</div>			
+	</form>
+</div>

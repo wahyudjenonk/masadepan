@@ -43,7 +43,7 @@ $config['compress_output'] = FALSE;
 $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
-$config['user_data'] = 'r063125470n';
+$config['user_data'] = 'jR3st0m4n';
 $config['modeling'] = 'G0yz-cUyz1987';
 
 $config["SMTPAuth"]				= TRUE;

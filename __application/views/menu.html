@@ -1,79 +1,114 @@
 <div  class="sidebar fixed" id="sidebar">
 	<ul class="nav nav-list">
 		<li>
-			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/berita/main');$('#judul_kecil').html('Berita')">
-				<i class="icon-comments-alt"></i>
-				<span class="menu-text">Berita</span>
+			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/getdisplay');$('#judul_kecil').html('Beranda')">
+				<i class="icon-home"></i>
+				<span class="menu-text">Beranda</span>
 			</a>
 		</li>
 		<li>
-			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/product/main');$('#judul_kecil').html('Product')">
+			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/produk/main');$('#judul_kecil').html('Produk')">
 				<i class="icon-shopping-cart"></i>
-				<span class="menu-text">Product</span>
-			</a>
-		</li>
-		<li>
-			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/services/main');$('#judul_kecil').html('Services')" >
-				<i class="icon-certificate"></i>
-				<span class="menu-text">Services</span>
-			</a>
-		</li>
-		<li>
-			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/reservasi/main');$('#judul_kecil').html('Reservasi')">
-				<i class="icon-group"></i>
-				<span class="menu-text">Reservasi</span>
-			</a>
-		</li>
-		<li>
-			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/gallery/main');$('#judul_kecil').html('Gallery')">
-				<i class="icon-camera"></i>
-				<span class="menu-text">Gallery</span>
-			</a>
-		</li>
-		<li>
-			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/testimony/main');$('#judul_kecil').html('Testimony')">
-				<i class="icon-comment-alt"></i>
-				<span class="menu-text">Testimony</span>
+				<span class="menu-text">Produk</span>
 			</a>
 		</li>
 		<li>
 			<a href="javascript:void(0);"  class="dropdown-toggle" >
-				<i class="icon-desktop"></i>
-				<span class="menu-text"> Referensi </span>
+				<i class="icon-laptop"></i>
+				<span class="menu-text"> Inventori </span>
 				<b class="arrow icon-angle-down"></b>
 			</a>
-
 			<ul class="submenu">
 				<li>
-					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/kota/main');$('#judul_kecil').html('Kota')">
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/supplier/main');$('#judul_kecil').html('Supplier')">
 						<i class="icon-double-angle-right"></i>
-						Kota
+						Supplier
 					</a>
 				</li>
 
 				<li>
-					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/lokasi/main');$('#judul_kecil').html('Lokasi')">
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/pembelian/main');$('#judul_kecil').html('Pembelian')">
 						<i class="icon-double-angle-right"></i>
-						Lokasi &amp; Icons
+						Pembelian
 					</a>
 				</li>
 
 				<li>
-					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/product_type/main');$('#judul_kecil').html('Type Product')">
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/transfer_stok/main');$('#judul_kecil').html('Transfer Stok')">
 						<i class="icon-double-angle-right"></i>
-						Type Product
+						Transfer Stok
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javascript:void(0);"  class="dropdown-toggle" >
+				<i class="icon-hdd"></i>
+				<span class="menu-text"> Master </span>
+				<b class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li>
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/outlet/main');$('#judul_kecil').html('Gerai / Outlet')">
+						<i class="icon-double-angle-right"></i>
+						Gerai / Outlet
 					</a>
 				</li>
 
 				<li>
-					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/user/main');$('#judul_kecil').html('User Management')">
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/kasir/main');$('#judul_kecil').html('Perangkat Kasir')">
 						<i class="icon-double-angle-right"></i>
-						User
+						Perangkat Kasir
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/pelanggan/main');$('#judul_kecil').html('Pelanggan')">
+						<i class="icon-double-angle-right"></i>
+						Pelanggan
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/kategori_produk/main');$('#judul_kecil').html('Kategori Produk')">
+						<i class="icon-double-angle-right"></i>
+						Kategori Produk
 					</a>
 				</li>
 			</ul>
 		</li>
 		
+		<li>
+			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/promo/main');$('#judul_kecil').html('Promo')" >
+				<i class="icon-certificate"></i>
+				<span class="menu-text">Promo</span>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/getdisplay');$('#judul_kecil').html('Laporan')">
+				<i class="icon-book"></i>
+				<span class="menu-text">Laporan</span>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:void(0);"  class="dropdown-toggle" >
+				<i class="icon-cogs"></i>
+				<span class="menu-text"> Konfigurasi </span>
+				<b class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li>
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/modul/kategori_produk/main');$('#judul_kecil').html('Kategori Produk')">
+						<i class="icon-double-angle-right"></i>
+						Setting Aplikasi
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" onclick="loadUrl('{$host}backend/getdisplay');$('#judul_kecil').html('User Manajemen')">
+						<i class="icon-double-angle-right"></i>
+						<span class="menu-text">User Manajemen</span>
+					</a>
+				</li>
+			</ul>
+		</li>
 	</ul><!--/.nav-list-->
 
 	<div class="sidebar-collapse" id="sidebar-collapse">
