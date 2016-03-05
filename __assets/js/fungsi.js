@@ -122,227 +122,137 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 	var footer=false;
 	
 	switch(modnya){
+		case "produk":
+			judulnya = "List Produk";
+			urlnya = "tbl_produk";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			frozen[modnya] = [	
+				{field:'judul_ind',title:'Nama Produk',width:300, halign:'center',align:'left'},
+			]
+			kolom[modnya] = [	
+				{field:'create_by',title:'Kategori',width:150, halign:'center',align:'left'},
+				{field:'create_by',title:'Harga Modal (HPP)',width:200, halign:'center',align:'right'},
+				{field:'create_by',title:'Harga Jual',width:200, halign:'center',align:'right'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
+		case "supplier":
+			judulnya = "List Supplier";
+			urlnya = "tbl_supplier";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			frozen[modnya] = [	
+				{field:'judul_ind',title:'Nama Supplier',width:300, halign:'center',align:'left'},
+			]
+			kolom[modnya] = [	
+				{field:'create_by',title:'Status',width:150, halign:'center',align:'left'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
+		case "pembelian":
+			judulnya = "List Pembelian";
+			urlnya = "tbl_pembelian";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			frozen[modnya] = [	
+				{field:'judul_ind',title:'Nama Supplier',width:300, halign:'center',align:'left'},
+			]
+			kolom[modnya] = [	
+				{field:'create_by',title:'PO. Number',width:200, halign:'center',align:'left'},
+				{field:'create_by',title:'Tanggal',width:150, halign:'center',align:'center'},
+				{field:'create_by',title:'Total Harga',width:150, halign:'center',align:'right'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
+		case "transfer_stok":
+			judulnya = "List Transfer Stok";
+			urlnya = "tbl_transfer_stok";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			frozen[modnya] = [	
+				{field:'judul_ind',title:'Gerai Asal',width:300, halign:'center',align:'left'},
+				{field:'judul_ind',title:'Gerai Tujuan',width:300, halign:'center',align:'left'},
+			]
+			kolom[modnya] = [	
+				{field:'create_by',title:'Tanggal Transfer',width:150, halign:'center',align:'center'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
+		case "outlet":
+			judulnya = "List Gerai/Outlet";
+			urlnya = "tbl_gerai";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			frozen[modnya] = [	
+				{field:'judul_ind',title:'Nama Gerai',width:300, halign:'center',align:'left'},
+			]
+			kolom[modnya] = [	
+				{field:'create_by',title:'Kota',width:150, halign:'center',align:'left'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
+		case "kasir":
+			judulnya = "List Perangkat Kasir";
+			urlnya = "tbl_perangkat";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			frozen[modnya] = [	
+				{field:'judul_ind',title:'Nama Gerai',width:300, halign:'center',align:'left'},
+			]
+			kolom[modnya] = [	
+				{field:'create_by',title:'ID Perangkat',width:150, halign:'center',align:'left'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
+		case "pelanggan":
+			judulnya = "List Pelanggan";
+			urlnya = "tbl_pelanggan";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			frozen[modnya] = [	
+				{field:'judul_ind',title:'Nama Gerai',width:300, halign:'center',align:'left'},
+			]
+			kolom[modnya] = [	
+				{field:'create_by',title:'Nama Pelanggan',width:200, halign:'center',align:'left'},
+				{field:'create_by',title:'ID Pelanggan',width:200, halign:'center',align:'left'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
+		case "kategori_produk":
+			judulnya = "Kategori Produk";
+			urlnya = "idx_kategori_produk";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			kolom[modnya] = [	
+				{field:'create_by',title:'Nama Kategori',width:200, halign:'center',align:'left'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
+		case "promo":
+			judulnya = "List Promo";
+			urlnya = "tbl_promo";
+			fitnya = true;
+			urlglobal = host+'backend/getdata/'+urlnya;
+			frozen[modnya] = [	
+				{field:'judul_ind',title:'Nama Promo',width:300, halign:'center',align:'left'},
+			]
+			kolom[modnya] = [	
+				{field:'create_by',title:'Tanggal Mulai',width:200, halign:'center',align:'left'},
+				{field:'create_by',title:'Tanggal Berakhir',width:200, halign:'center',align:'left'},
+				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+			]
+		break;
 		
-		case "berita":
-			judulnya = "List New / Berita";
-			urlnya = "tbl_berita";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			frozen[modnya] = [	
-				{field:'judul_ind',title:'Judul. Ind',width:300, halign:'center',align:'left'},
-				{field:'judul_eng',title:'Judul. Eng',width:300, halign:'center',align:'left'},
-				
-			]
-			kolom[modnya] = [	
-				//{field:'isi_berita_ind',title:'Isi. Ind',width:250, halign:'center',align:'left'},
-				//{field:'isi_berita_eng',title:'Isi. Eng',width:250, halign:'center',align:'left'},
-				//{field:'file_foto',title:'Foto',width:100, halign:'center',align:'left'},
-				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
-			]
-		break;
-		case "tutorial":
-			judulnya = "List Tutorial";
-			urlnya = "tbl_tutorial";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			frozen[modnya] = [	
-				{field:'judul_ind',title:'Judul. Ind',width:300, halign:'center',align:'left'},
-				{field:'judul_eng',title:'Judul. Eng',width:300, halign:'center',align:'left'},
-				
-			]
-			kolom[modnya] = [	
-				//{field:'isi_berita_ind',title:'Isi. Ind',width:250, halign:'center',align:'left'},
-				//{field:'isi_berita_eng',title:'Isi. Eng',width:250, halign:'center',align:'left'},
-				//{field:'file_foto',title:'Foto',width:100, halign:'center',align:'left'},
-				{field:'url_nya',title:'URL',width:200, halign:'center',align:'left'},
-				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
-			]
-		break;
-		case "product":
-			judulnya = "List Product";
-			urlnya = "tbl_product";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			frozen[modnya] = [	
-				{field:'nama_product_ind',title:'Product. Ind',width:150, halign:'center',align:'left'},
-				{field:'nama_product_eng',title:'Product. Eng',width:150, halign:'center',align:'left'},
-				
-			]
-			kolom[modnya] = [	
-				{field:'cl_product_type_id',title:'Type Product',width:100, halign:'center',align:'left'},
-				{field:'deskripsi_ind',title:'Deskripsi Ind',width:250, halign:'center',align:'left'},
-				{field:'deskripsi_eng',title:'Deskripsi Eng',width:250, halign:'center',align:'left'},
-				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
-			]
-		break;
-		case "services":
-			judulnya = "List Services";
-			urlnya = "tbl_services";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			frozen[modnya] = [	
-				{field:'nama_service_ind',title:'Nama Service Ind',width:150, halign:'center',align:'left'},
-				{field:'nama_service_eng',title:'Nama Service Eng',width:150, halign:'center',align:'left'},
-				
-			]
-			kolom[modnya] = [	
-				{field:'deskripsi_ind',title:'Deskripsi Ind',width:250, halign:'center',align:'left'},
-				{field:'deskripsi_eng',title:'Deskripsi Eng',width:250, halign:'center',align:'left'},
-				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
-			]
-		break;
-		case "reservasi":
-			judulnya = "List Reservasi";
-			urlnya = "tbl_reservasi";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			frozen[modnya] = [	
-				{field:'nama',title:'Nama',width:150, halign:'center',align:'left'},
-				{field:'id_member',title:'Member ID',width:150, halign:'center',align:'left'},
-				{field:'phone',title:'Tlp',width:100, halign:'center',align:'left'},
-			]
-			kolom[modnya] = [	
-				{field:'email',title:'Email',width:150, halign:'center',align:'left'},
-				{field:'tgl',title:'Tgl. Reservasi',width:150, halign:'center',align:'left'},
-				{field:'lokasi',title:'Cabang',width:200, halign:'center',align:'left'},
-				{field:'product_type',title:'Product Type',width:150, halign:'center',align:'left'},
-				{field:'request',title:'Request',width:150, halign:'center',align:'left'},
-			]
-		break;
-		case "gallery":
-			judulnya = "List Gallery";
-			urlnya = "tbl_gallery";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			kolom[modnya] = [	
-				{field:'lokasi',title:'Cabang',width:150, halign:'center',align:'left'},
-				{field:'file_foto',title:'Foto',width:200, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						return "<img src='"+host+"__repository/gallery/"+row.file_foto+"' width='100px' style='height:60px !important'>";
-					}
-				},
-			]
-		break;
-		case "testimony":
-			judulnya = "List Testimony";
-			urlnya = "tbl_testimony";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			nowrap_nya=false;
-			kolom[modnya] = [	
-				{field:'nama',title:'Nama',width:150, halign:'center',align:'left'},
-				{field:'testimony_ind',title:'Testimony',width:300, halign:'center',align:'left'},
-				{field:'testimony_eng',title:'Testimony',width:300, halign:'center',align:'left'},
-			]
-		break;
-		case "newslatter":
-			judulnya = "List Pendaftar Email NewsLatter";
-			urlnya = "tbl_newslatter";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			nowrap_nya=false;
-			kolom[modnya] = [	
-				{field:'email',title:'Email',width:350, halign:'center',align:'left'},
-				{field:'create_date',title:'Tgl. Submit',width:200, halign:'center',align:'center'}
-			]
-		break;
-		case "banner":
-			judulnya = "List Banner Slideshow";
-			urlnya = "tbl_banner";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			pagesizeboy = 50;
-			kolom[modnya] = [	
-				{field:'file_foto',title:'Foto',width:200, halign:'center',align:'center',
-					formatter: function(value,row,index){
-						return "<img src='"+host+"__repository/banner/"+row.file_banner+"' width='100px' style='height:60px !important'>";
-					}
-				},
-				{field:'status',title:'Status',width:150, halign:'center',align:'left',
-					formatter: function(value,row,index){
-						if(row.status == '1'){
-							return "<font color='green'>Slide Tampil</font>";
-						}else{
-							return "<font color='red'>Slide Tidak Tampil</font>";
-						}
-					}
-				},				
-			]
-		break;		
-		
-		case "kota":
-			judulnya = "List Cabang Kota";
-			urlnya = "cl_kota";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			kolom[modnya] = [	
-				{field:'kota',title:'Kota',width:250, halign:'center',align:'left'},
-				{field:'create_by',title:'Dibuat Oleh',width:150, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:150, halign:'center',align:'center'},
-			]
-		break;
-		case "product_type":
-			judulnya = "List Product Kategori/Type";
-			urlnya = "cl_product_type";
-			fitnya = true;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			kolom[modnya] = [	
-				{field:'product_type',title:'Product Type',width:250, halign:'center',align:'left'},
-				{field:'create_by',title:'Dibuat Oleh',width:150, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:150, halign:'center',align:'center'},
-			]
-		break;
-		case "lokasi":
-			judulnya = "List Cabang Lokasi Kota";
-			urlnya = "cl_lokasi";
-			fitnya = true;
-			nowrap_nya=false;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			frozen[modnya] = [	
-				{field:'kota',title:'Kota',width:250, halign:'center',align:'left'},
-				{field:'lokasi',title:'Lokasi',width:250, halign:'center',align:'left'}
-			],
-			kolom[modnya] = [	
-				{field:'alamat_ind',title:'Alamat Ind',width:250, halign:'center',align:'left'},
-				{field:'alamat_eng',title:'Alamat Eng',width:250, halign:'center',align:'left'},
-				{field:'tlp',title:'Telp',width:150, halign:'center',align:'left'},
-				{field:'fax',title:'Fax',width:150, halign:'center',align:'left'},
-				{field:'email',title:'Email',width:150, halign:'center',align:'left'},
-				{field:'create_by',title:'Dibuat Oleh',width:150, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:150, halign:'center',align:'center'},
-			]
-		break;
-		case "user":
-			judulnya = "User Management";
-			urlnya = "tbl_user";
-			fitnya = true;
-			nowrap_nya=false;
-			urlglobal = host+'backend/getdata/'+urlnya;
-			frozen[modnya] = [	
-				{field:'nama_user',title:'UserId',width:250, halign:'center',align:'left'},
-				{field:'nama_lengkap',title:'Nama Lengkap',width:250, halign:'center',align:'left'}
-			],
-			kolom[modnya] = [	
-				{field:'email',title:'Email',width:150, halign:'center',align:'left'},
-				{field:'jenis_kelamin',title:'Jenis Kelamin',width:150, halign:'center',align:'left',
-					formatter: function(value,row,index){
-						if(value=='L'){return 'Laki-laki';}
-						else{return 'Wanita';}
-					}
-				},
-				{field:'tlp',title:'Telp',width:150, halign:'center',align:'left'},
-				{field:'status',title:'Status',width:150, halign:'center',align:'left',
-					formatter: function(value,row,index){
-						if(value==1){return 'Aktif';}
-						else{return 'Tidak Aktif';}
-					}
-				},
-			]
-		break;
 	}
 	
 	grid_nya=$("#"+divnya).datagrid({
@@ -405,18 +315,30 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 	var id_tambahan = "";
 	
 	switch(submodulnya){
-		case "201":
-			var lebar = getClientWidth()-990;
-			var tinggi = getClientHeight()-535;
-			var judulwindow = 'Form Data Provinsi';
-			var table="cl_provinsi";
+		case "produk":
+			table="tbl_produk";
+			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
+		break;
+		case "supplier":
+			table="tbl_supplier";
+			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
 		
-		// End Modul Cost Object
+		case "outlet":
+			table="tbl_outlet";
+			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
+		break;
+		case "kasir":
+			table="tbl_kasir";
+			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
+		break;
+		case "kategori_produk":
+			table="tbl_kategori_produk";
+			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
+		break;
 	}
 	
 	switch(type){
-		
 		case "add":
 			if(stswindow == undefined){
 				$('#grid_nya_'+submodulnya).hide();
