@@ -12,7 +12,7 @@ class mbackend extends CI_Model{
 			case "tbl_user":
 				$sql = " 
 					SELECT A.*
-					FROM tbl_user A
+					FROM tbl_registrasi A
 				";
 				if($p1=='edit'){
 					$sql .=" WHERE A.id=".$p2;
