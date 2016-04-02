@@ -123,31 +123,34 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 	
 	switch(modnya){
 		case "produk":
-			judulnya = "List Produk";
-			urlnya = "tbl_produk";
+			judulnya = "";
+			urlnya = "produk";
 			fitnya = true;
 			urlglobal = host+'backend/getdata/'+urlnya;
 			frozen[modnya] = [	
-				{field:'judul_ind',title:'Nama Produk',width:300, halign:'center',align:'left'},
+				{field:'nama_produk',title:'Nama Produk',width:300, halign:'center',align:'left'},
+				{field:'kode_produk',title:'Kode Produk',width:130, halign:'center',align:'left'},
 			]
 			kolom[modnya] = [	
-				{field:'create_by',title:'Kategori',width:150, halign:'center',align:'left'},
-				{field:'create_by',title:'Harga Modal (HPP)',width:200, halign:'center',align:'right'},
-				{field:'create_by',title:'Harga Jual',width:200, halign:'center',align:'right'},
-				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+				{field:'nama_kategori',title:'Kategori',width:150, halign:'center',align:'left'},
+				{field:'hpp',title:'Harga Modal (HPP)',width:200, halign:'center',align:'right'},
+				{field:'create_by',title:'Dibuat Oleh',width:130, halign:'center',align:'left'},
+				{field:'create_date',title:'Dibuat Tgl',width:130, halign:'center',align:'center'},
 			]
 		break;
 		case "supplier":
-			judulnya = "List Supplier";
-			urlnya = "tbl_supplier";
+			judulnya = "";
+			urlnya = "supplier";
 			fitnya = true;
 			urlglobal = host+'backend/getdata/'+urlnya;
 			frozen[modnya] = [	
-				{field:'judul_ind',title:'Nama Supplier',width:300, halign:'center',align:'left'},
+				{field:'nama_supplier',title:'Nama Supplier',width:300, halign:'center',align:'left'},
 			]
 			kolom[modnya] = [	
-				{field:'create_by',title:'Status',width:150, halign:'center',align:'left'},
+				{field:'no_telp',title:'No. Telp',width:150, halign:'center',align:'left'},
+				{field:'email',title:'Email',width:150, halign:'center',align:'left'},
+				{field:'contact_person',title:'Kontak',width:150, halign:'center',align:'left'},
+				{field:'statu',title:'Status',width:150, halign:'center',align:'left'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
 				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
 			]
