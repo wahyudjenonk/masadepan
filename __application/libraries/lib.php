@@ -90,6 +90,16 @@ class lib {
 	}
 	//end Class Upload File
 	
+	//Hapus File
+	function hapus_file($type="", $path=""){
+		switch($type){
+			case "satu":
+				unlink($path);
+			break;
+		}
+	}
+	//End Hapus File
+	
 	//class Make Directory
 	function makedir($dirpath="", $mode=0777){
 		if(!is_dir($dirpath)) {
@@ -265,7 +275,7 @@ class lib {
 	//Class Fillcombo
 	function fillcombo($type="", $balikan="", $p1="", $p2="", $p3=""){
 		$ci =& get_instance();
-		$ci->load->model('mhome');
+		$ci->load->model('mbackend');
 		
 		$v = $ci->input->post('v');
 		if($v != ""){
@@ -275,69 +285,17 @@ class lib {
 		}
 		
 		
-		if($type == 'tbl_loc_search'){
-			$optTemp = '';
-		}else{
-			$optTemp = '<option value="0"> -- Choose -- </option>';
-		}
+		$optTemp = '<option value="0"> -- Pilih -- </option>';
+		
 		switch($type){
-			case "tbl_loc_search":
-				$type = 'tbl_loc';
-				$data = $ci->mhome->get_combo($type, $p1, $p2);
-			break;
-			case "import_resource":
-				$data = array(
-					'0' => array('id'=>'tbl_emp','txt'=>'Data Employee'),
-					'1' => array('id'=>'tbl_exp','txt'=>'Data Expense'),
-					'2' => array('id'=>'tbl_assets','txt'=>'Data Assets'),
-				);
-			break;
-			case "import_cost_object":
-				$data = array(
-					'0' => array('id'=>'tbl_emp','txt'=>'Data Cost Object'),
-					'1' => array('id'=>'tbl_exp','txt'=>'Data Customer'),
-					'2' => array('id'=>'tbl_assets','txt'=>'Data Location'),
-				);
-			break;
-			case "jenis_kelamin":
-				$data = array(
-					'0' => array('id'=>'L','txt'=>'Laki-Laki'),
-					'1' => array('id'=>'P','txt'=>'Perempuan'),
-				);
-			break;
 			case "status":
 				$data = array(
-					'0' => array('id'=>'1','txt'=>'Active'),
-					'1' => array('id'=>'0','txt'=>'Inactive'),
-				);
-			break;
-			case "bulan" :
-				$ci->load->helper('db_helper');
-				$data = arraydate('bulan');
-				$optTemp = '<option value=""> -- Month -- </option>';
-			break;
-			case "tahun" :
-				$ci->load->helper('db_helper');
-				$data = arraydate('tahun');
-				$optTemp = '<option value=""> -- Year -- </option>';
-			break;
-			case "cost_type":
-				$data = array(
-					'0' => array('id'=>'fixed','txt'=>'Fixed'),
-					'1' => array('id'=>'variable','txt'=>'Variable'),
-					'2' => array('id'=>'step','txt'=>'Step'),
-				);
-			break;
-			case "cost_bucket":
-				$data = array(
-					'0' => array('id'=>'unit','txt'=>'Unit'),
-					'1' => array('id'=>'batch','txt'=>'Batch'),
-					'2' => array('id'=>'product','txt'=>'Product'),
-					'2' => array('id'=>'facility','txt'=>'Facility'),
+					'0' => array('id'=>'1','txt'=>'Aktif'),
+					'1' => array('id'=>'0','txt'=>'Non-Aktif'),
 				);
 			break;
 			default:
-				$data = $ci->mhome->get_combo($type, $p1, $p2);
+				$data = $ci->mbackend->get_combo($type, $p1, $p2);
 			break;
 		}
 		
@@ -359,4 +317,6 @@ class lib {
 		
 	}
 	//End Class Fillcombo
+	
+	
 }

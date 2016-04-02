@@ -1,36 +1,59 @@
 <fieldset>
 	<legend>Form Produk</legend>
-<div class="span12">
-	<form class="form-horizontal" id="form_produk" url="{$host}backend/simpan_data/tbl_{$main}" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="id" value="{$data.id|default:''}">
-		<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
-		
-		{include file="template/input_form.html" type='text' label="Nama Produk" id="nama_produk" name="nama_produk" value="{$data.nama_produk|default:''}" }
-		{include file="template/input_form.html" type='text' label="Kode Produk" id="kode_produk" name="kode_produk" value="{$data.kode_produk|default:''}" }
-		{include file="template/input_form.html" type='select' label="Kategori" id="kategori_produk" name="kategori_produk" option={$combo_kategori|default:''} }
-		{include file="template/input_form.html" type='text' label="Harga Pokok Penjualan (HPP)" id="harga_hpp" name="harga_hpp" value="{$data.harga_hpp|default:''}" }
-		{include file="template/input_form.html" type='text' label="Pajak" id="pajak" name="pajak" value="{$pajak|default:''}"  read="readonly"}
-		{include file="template/input_form.html" type='text' label="HPP + Pajak" id="hpp_pajak" name="hpp_pajak" value="{$hpp_pajak|default:''}"  read="readonly"}
-		{include file="template/input_form.html" type='select' label="Gerai / Outlet" id="tbl_outlet_id" name="tbl_outlet_id" option={$combo_outlet|default:''} }
-		<div class="control-group">
-			<label class="control-label" for="form-field-1">Foto Produk</label>
-			<div class="controls">
-				{if $sts_crud == 'edit'}
-					<img src='{$host}__repository/product/{$data.foto_icon}' width='100px' height='150px'>
-					<br/>
-					<br/>
-				{/if}
-				{include file="template/file_input.html" multiple='false' id="file_produk" }
-			</div>
-		</div>		
-
-		<div class="control-group">
-			<label class="control-label" for="form-field-1"></label>
-			<div class="controls">
-				{include file="template/button_save.html" id_simpan="simpan_{$main}" id_batal="batal_{$main}" }
-			</div>
-		</div>	
-		
-	</form>
-</div>
+	<div class="span12">
+		<form class="form-horizontal" id="form_produk" url="{$host}backend/cruddata/{$main}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="{$data.id|default:''}">
+			<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
+			<input type="hidden" name="gambar_old" value="{$data.gambar|default:''}">
+			
+			{include file="template/input_form.html" type='text' label="Nama Produk" id="nama_produk" name="nama_produk" value="{$data.nama_produk|default:''}" }
+			{include file="template/input_form.html" type='text' label="Kode Produk" id="kode_produk" name="kode_produk" value="{$data.kode_produk|default:''}" }
+			{include file="template/input_form.html" type='select' label="Kategori" id="cl_kategori_id" name="cl_kategori_id" option={$cl_kategori_id|default:''} }
+			{include file="template/input_form.html" type='text' label="Harga Pokok Penjualan (HPP)" id="hpp" name="hpp" value="{$data.hpp|default:''}" }
+			{include file="template/input_form.html" type='text' label="Pajak" id="pajak" name="pajak" value="{$pajak|default:''}"  read="readonly"}
+			{include file="template/input_form.html" type='text' label="HPP + Pajak" id="hpp_pajak" name="hpp_pajak" value="{$hpp_pajak|default:''}"  read="readonly"}
+			<div class="control-group">
+				<label class="control-label" for="form-field-1">Foto Produk</label>
+				<div class="controls">
+					{if $sts_crud == 'edit'}
+						<img src='{$host}__repo/produk/{$data.gambar}' width='200px' height='150px'>
+						<br/>
+						<br/>
+					{/if}
+					{include file="template/file_input.html" multiple='false' id="file_produk" }
+				</div>
+			</div>		
+			{if $sts_crud == 'edit'}
+				{include file="template/input_form.html" type='select' label="Status" id="status" name="status" option={$status|default:''} }
+			{/if}
+			
+			<div class="control-group">
+				<label class="control-label" for="form-field-1"></label>
+				<div class="controls">
+					{include file="template/button_save.html" id_simpan="simpan_{$main}" id_batal="batal_{$main}" }
+				</div>
+			</div>	
+		</form>
+	</div>
 </fieldset>
+
+<script>
+	$('#simpan_produk').bind('click', function(){
+		submit_form('form_produk',function(r){
+			if(r==1){
+				$.messager.alert('JResto Soft',"Data Tersimpan",'info');
+				$('#grid_{$main}').datagrid('reload');
+				$('#grid_nya_{$main}').show();
+				$('#detil_nya_{$main}').html('').hide();
+			}
+			else{
+				$.messager.alert('JResto Soft', "Gagal", 'error');
+				console.log(r);
+			}
+		});
+	});
+	$('#batal_{$main}').click(function(){
+		$('#grid_nya_{$main}').show();
+		$('#detil_nya_{$main}').html('').hide();
+	});	
+</script>

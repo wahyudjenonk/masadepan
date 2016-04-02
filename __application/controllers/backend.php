@@ -44,6 +44,21 @@ class backend extends CI_Controller {
 		switch($type){
 			case "get-form":
 				$sts_crud = $this->input->post('editstatus');
+				$this->smarty->assign("acak", md5(date('YmdHis').'ind') );				
+				
+				if($sts_crud == 'edit'){
+					$table = "tbl_".$p1;
+					$id = $this->input->post('id');
+					$data = $this->db->get_where($table, array('id'=>$id) )->row_array();
+					$this->smarty->assign('data', $data);
+				}
+				
+				switch($p1){
+					case "produk":
+						$this->smarty->assign('cl_kategori_id', $this->lib->fillcombo('cl_kategori_produk', 'return', ($sts_crud == 'edit' ? $data['cl_kategori_id'] : "") ) );
+						$this->smarty->assign('status', $this->lib->fillcombo('status', 'return', ($sts_crud == 'edit' ? $data['status'] : "") ) );
+					break;
+				}
 				
 				$this->smarty->assign("main", $p1);
 				$this->smarty->assign("acak_form", md5(date('H:i:s')) );
@@ -59,6 +74,36 @@ class backend extends CI_Controller {
 		}
 	}
 	
+	function getdata($p1){
+		echo $this->mbackend->getdata($p1,"json");
+	}	
 	
+	function cruddata($p1){
+		$post = array();
+		
+        foreach($_POST as $k=>$v){
+			if($this->input->post($k)!=""){
+				//$post[$k] = $this->db->escape_str($this->input->post($k));
+				$post[$k] = $this->input->post($k);
+			}
+			
+		}
+		
+		/*
+		if(isset($post['upload_na'])){
+			if(isset($post['upload_na']))unset($post['upload_na']);
+			if(isset($post['modul_detil']))unset($post['modul_detil']);
+			$id_header=$this->mbackend->simpan_data($p1, $post,'get_id');
+			
+			unset($_FILES['file_icon_foto_services']);
+			unset($_FILES['file_icon_foto_product']);
+			
+			echo $this->upload($this->input->post('modul_detil'), $id_header, $post);
+		}else{
+		}
+		*/
+		echo $this->mbackend->simpan_data($p1, $post);
+	}
+
 	
 }

@@ -1,24 +1,53 @@
 <fieldset>
 	<legend>Form Supplier</legend>
-<div class="span12">
-	<form class="form-horizontal" id="form_supplier" url="{$host}backend/simpan_data/tbl_{$main}" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="id" value="{$data.id|default:''}">
-		<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
-		
-		{include file="template/input_form.html" type='text' label="Nama Supplier" id="nama_supplier" name="nama_supplier" value="{$data.nama_supplier|default:''}" }
-		{include file="template/input_form.html" type='text' label="No. Telp / Handphone" id="no_telp" name="no_telp" value="{$data.no_telp|default:''}" }
-		{include file="template/input_form.html" type='text' label="Email" id="email" name="email" value="{$data.email|default:''}" }
-		<div class="control-group">
-			<label class="control-label" for="form-field-1">Alamat Supplier</label>
-			<div class="controls">
-				<textarea class="span10" id="alamat_supplier" cols='15' rows='10' name="alamat_suppler">{$data.alamat_suppler|default:''}</textarea>
+	<div class="span10">
+		<form class="form-horizontal" id="form_supplier" url="{$host}backend/cruddata/tbl_{$main}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="{$data.id|default:''}">
+			<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
+			
+			{include file="template/input_form.html" type='text' label="Nama Supplier" id="nama_supplier" name="nama_supplier" value="{$data.nama_supplier|default:''}" }
+			{include file="template/input_form.html" type='text' label="No. Telp / Handphone" id="no_telp" name="no_telp" value="{$data.no_telp|default:''}" }
+			{include file="template/input_form.html" type='text' label="Email" id="email" name="email" value="{$data.email|default:''}" }
+			{include file="template/input_form.html" type='text' label="Nama Kontak" id="kontak" name="kontak" value="{$data.kontak|default:''}" }
+			<div class="control-group">
+				<label class="control-label" for="form-field-1">Alamat Supplier</label>
+				<div class="controls">
+					{include file="template/editor.html" id="alamat_{$main}_{$acak}" name="alamat" height="150" value="{$data.alamat|default:''}"}
+				</div>
 			</div>
-		</div>		
-		<div class="control-group">
-			<label class="control-label" for="form-field-1"></label>
-			<div class="controls">
-				{include file="template/button_save.html" id_simpan="simpan_{$main}" id_batal="batal_{$main}" }
-			</div>
-		</div>			
-	</form>
-</div>
+			{if $sts_crud == 'edit'}
+				{include file="template/input_form.html" type='select' label="Status" id="status" name="status" option={$status|default:''} }
+			{/if}
+			<div class="control-group">
+				<label class="control-label" for="form-field-1"></label>
+				<div class="controls">
+					{include file="template/button_save.html" id_simpan="simpan_{$main}" id_batal="batal_{$main}" }
+				</div>
+			</div>			
+		</form>
+	</div>
+</fieldset>
+
+<script>
+	$('#batal_{$main}').click(function(){
+		tinyMCE.get("alamat_{$main}_{$acak}").save();
+		$('#grid_nya_{$main}').show();
+		$('#detil_nya_{$main}').html('').hide();
+	});
+	
+	$('#simpan_{$main}').click(function(){
+		tinyMCE.get("alamat_{$main}_{$acak}").save();
+		submit_form('form_supplier',function(r){
+			if(r==1){
+				$.messager.alert('JResto Soft',"Data Tersimpan",'info');
+				$('#grid_{$main}').datagrid('reload');
+				$('#grid_nya_{$main}').show();
+				$('#detil_nya_{$main}').html('').hide();
+			}else{
+				$.messager.alert('JResto Soft',"Gagal",'error');
+				console.log(r);
+			}
+		});
+
+	});
+</script>

@@ -18,7 +18,19 @@ class mbackend extends CI_Model{
 					$sql .=" WHERE A.id=".$p2;
 				}
 			break;		
-			
+			case "produk":
+				$sql = "
+					SELECT A.*, B.nama_kategori
+					FROM tbl_produk A
+					LEFT JOIN cl_kategori_produk B ON B.id_kategori = A.cl_kategori_id
+				";
+			break;		
+			case "supplier":
+				$sql = "
+					SELECT A.*
+					FROM tbl_supplier A
+				";
+			break;		
 		}
 		
 		if($balikan == 'row_array'){
@@ -28,6 +40,19 @@ class mbackend extends CI_Model{
 		}else{
 			return $this->result_query($sql,'json');
 		}
+	}
+	
+	function get_combo($type="", $p1="", $p2=""){
+		switch($type){
+			case "cl_kategori_produk":
+				$sql = "
+					SELECT id_kategori as id, nama_kategori as txt
+					FROM cl_kategori_produk
+				";
+			break;
+		}
+		
+		return $this->db->query($sql)->result_array();
 	}
 	
 	function result_query($sql,$type=""){
@@ -67,29 +92,59 @@ class mbackend extends CI_Model{
 	// GOYZ CROTZZZ
 	function simpan_data($table,$data,$get_id=""){ //$sts_crud --> STATUS NYEE INSERT, UPDATE, DELETE
 		$this->db->trans_begin();
-		$id=$this->input->post('id');
-		$sts_crud=$this->input->post('sts_crud');
+		$post = array();
+		$id = $this->input->post('id');
+		$field_id = "id";
+		$sts_crud = $this->input->post('sts_crud');
 		unset($data['sts_crud']);
-		//print_r($_POST);exit;
+		
 		switch ($table){
-			case "tbl_user":
-				$this->load->library('encrypt');
-				if(isset($data['status'])){unset($data['status']);$data['status']=1;}
-				if(isset($data['password'])){
-					if($data['password']!=''){
-						unset($data['password']);
-						$pass=$this->encrypt->encode($this->input->post('password'));
-						$data['password']=$pass;
+			case "produk":
+				$path='__repo/produk/';
+				$table = "tbl_".$table;
+				if(!empty($_FILES['file_produk']['name'])){
+					if($sts_crud == 'edit'){
+						if($data['gambar_old'] != ""){
+							$this->lib->hapus_file('satu', $path.$data['gambar_old']);
+						}
 					}
-				}
+					
+					$nm = str_replace(' ', '', $data['nama_produk']);
+					$file = date('YmdHis')."_".$nm;
+					$filename =  $this->lib->uploadnong($path, 'file_produk', $file); //$file.'.'.$extension;
+					$data['gambar'] = $filename;
+				}else{
+					if($sts_crud == 'edit'){
+						if(isset($data['gambar_old'])){
+							$data['gambar'] = $data['gambar_old'];
+						}else{
+							$data['gambar'] = null;
+						}
+					}elseif($sts_crud == 'add'){
+						$data['gambar'] = null;
+					}
+				}			
+				
+				unset($data['gambar_old']);
 			break;
 		}
-		//echo $this->db->last_query();exit;
+		
+		if($sts_crud == 'add'){
+			$data['create_date'] = date('Y-m-d H:i:s');
+			$data['create_by'] = $this->auth['nama_user'];
+			$this->db->insert($table, $data);
+		}elseif($sts_crud == 'edit'){
+			$data['update_date'] = date('Y-m-d H:i:s');
+			$data['update_by'] = $this->auth['nama_user'];
+			$this->db->update($table, $data, array($field_id=>$id) );
+		}elseif($sts_crud == 'delete'){
+			
+		}
 		
 		if($this->db->trans_status() == false){
 			$this->db->trans_rollback();
 			return 0;
-		} else{
+		}else{
 			if($get_id=='get_id'){
 				$this->db->trans_commit();
 				return $id;
