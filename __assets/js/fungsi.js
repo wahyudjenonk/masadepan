@@ -152,11 +152,11 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'contact_person',title:'Kontak',width:150, halign:'center',align:'left'},
 				{field:'statu',title:'Status',width:150, halign:'center',align:'left'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+				{field:'create_date',title:'Dibuat Tgl',width:120, halign:'center',align:'center'},
 			]
 		break;
 		case "pembelian":
-			judulnya = "List Pembelian";
+			judulnya = "";
 			urlnya = "tbl_pembelian";
 			fitnya = true;
 			urlglobal = host+'backend/getdata/'+urlnya;
@@ -168,7 +168,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'create_by',title:'Tanggal',width:150, halign:'center',align:'center'},
 				{field:'create_by',title:'Total Harga',width:150, halign:'center',align:'right'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+				{field:'create_date',title:'Dibuat Tgl',width:120, halign:'center',align:'center'},
 			]
 		break;
 		case "transfer_stok":
@@ -183,7 +183,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			kolom[modnya] = [	
 				{field:'create_by',title:'Tanggal Transfer',width:150, halign:'center',align:'center'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+				{field:'create_date',title:'Dibuat Tgl',width:120, halign:'center',align:'center'},
 			]
 		break;
 		case "outlet":
@@ -197,21 +197,22 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			kolom[modnya] = [	
 				{field:'create_by',title:'Kota',width:150, halign:'center',align:'left'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+				{field:'create_date',title:'Dibuat Tgl',width:120, halign:'center',align:'center'},
 			]
 		break;
-		case "kasir":
-			judulnya = "List Perangkat Kasir";
-			urlnya = "tbl_perangkat";
+		case "perangkat_kasir":
+			judulnya = "";
+			urlnya = "perangkat_kasir";
 			fitnya = true;
 			urlglobal = host+'backend/getdata/'+urlnya;
 			frozen[modnya] = [	
-				{field:'judul_ind',title:'Nama Gerai',width:300, halign:'center',align:'left'},
+				{field:'nama_perangkat',title:'Nama Perangkat',width:300, halign:'center',align:'left'},
 			]
 			kolom[modnya] = [	
-				{field:'create_by',title:'ID Perangkat',width:150, halign:'center',align:'left'},
+				{field:'nama_outlet',title:'Gerai / Outlet',width:150, halign:'center',align:'left'},
+				{field:'perangkat_id',title:'ID Perangkat',width:200, halign:'center',align:'center'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+				{field:'create_date',title:'Dibuat Tgl',width:120, halign:'center',align:'center'},
 			]
 		break;
 		case "pelanggan":
@@ -230,18 +231,18 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;
 		case "kategori_produk":
-			judulnya = "Kategori Produk";
-			urlnya = "idx_kategori_produk";
+			judulnya = "";
+			urlnya = "kategori_produk";
 			fitnya = true;
 			urlglobal = host+'backend/getdata/'+urlnya;
 			kolom[modnya] = [	
-				{field:'create_by',title:'Nama Kategori',width:200, halign:'center',align:'left'},
+				{field:'nama_kategori',title:'Nama Kategori',width:200, halign:'center',align:'left'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
 				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
 			]
 		break;
 		case "promo":
-			judulnya = "List Promo";
+			judulnya = "";
 			urlnya = "tbl_promo";
 			fitnya = true;
 			urlglobal = host+'backend/getdata/'+urlnya;
@@ -322,21 +323,26 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			table="tbl_produk";
 			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
+		
 		case "supplier":
 			table="tbl_supplier";
 			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
-		
 		case "outlet":
 			table="tbl_outlet";
 			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
-		case "kasir":
-			table="tbl_kasir";
+		case "perangkat_kasir":
+			table="tbl_perangkat_kasir";
 			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
 		case "kategori_produk":
-			table="tbl_kategori_produk";
+			table="cl_kategori_produk";
+			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
+		break;
+		
+		case "promo":
+			table="tbl_promo";
 			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
 	}
@@ -368,7 +374,7 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 						$('#grid_nya_'+submodulnya).hide();
 						$('#detil_nya_'+submodulnya).show().addClass("loading");	
 					}
-					$.post(urlpost, { 'editstatus':'edit', id:row.id, 'tabel':table, 'submodul':submodulnya, 'bulan':row.bulan, 'tahun':row.tahun, 'id_tambahan':id_tambahan }, function(resp){
+					$.post(urlpost, { 'editstatus':'edit', id:row.id, 'ts':table, 'submodul':submodulnya, 'bulan':row.bulan, 'tahun':row.tahun, 'id_tambahan':id_tambahan }, function(resp){
 						if(stswindow == 'windowform'){
 							windowForm(resp, judulwindow, lebar, tinggi);
 						}else if(stswindow == 'windowpanel'){
