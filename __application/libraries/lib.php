@@ -114,7 +114,9 @@ class lib {
         $str = "";
 		$rangehuruf = range('A','Z');
 		$rangeangka = range('0','9');
-		if($parameter == 'reg'){
+		if($parameter == 'angka'){
+			$characters = array_merge($rangeangka);
+		}elseif($parameter == "huruf"){
 			$characters = array_merge($rangeangka);
 		}else{
 			$characters = array_merge($rangehuruf, $rangeangka);
@@ -292,6 +294,12 @@ class lib {
 				$data = array(
 					'0' => array('id'=>'1','txt'=>'Aktif'),
 					'1' => array('id'=>'0','txt'=>'Non-Aktif'),
+				);
+			break;
+			case "flag_outlet":
+				$data = array(
+					'0' => array('id'=>'1','txt'=>'Semua Outlet'),
+					'1' => array('id'=>'0','txt'=>'Outlet Tertentu'),
 				);
 			break;
 			default:

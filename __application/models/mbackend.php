@@ -31,6 +31,25 @@ class mbackend extends CI_Model{
 					FROM tbl_supplier A
 				";
 			break;		
+			case "kategori_produk":
+				$sql = "
+					SELECT A.*
+					FROM cl_kategori_produk A
+				";
+			break;		
+			case "perangkat_kasir":
+				$sql = "
+					SELECT A.*, B.nama_outlet
+					FROM tbl_perangkat_kasir A
+					LEFT JOIN tbl_gerai_outlet B ON B.id = A.tbl_gerai_outlet_id 
+				";
+			break;		
+			case "tbl_promo":
+				$sql = "
+					SELECT A.*
+					FROM tbl_promo A
+				";
+			break;		
 		}
 		
 		if($balikan == 'row_array'){
@@ -46,8 +65,14 @@ class mbackend extends CI_Model{
 		switch($type){
 			case "cl_kategori_produk":
 				$sql = "
-					SELECT id_kategori as id, nama_kategori as txt
+					SELECT id, nama_kategori as txt
 					FROM cl_kategori_produk
+				";
+			break;
+			case "tbl_gerai_outlet_id":
+				$sql = "
+					SELECT id, nama_outlet as txt
+					FROM tbl_gerai_outlet
 				";
 			break;
 		}
@@ -126,6 +151,15 @@ class mbackend extends CI_Model{
 				}			
 				
 				unset($data['gambar_old']);
+			break;
+			case "supplier":
+				$table = "tbl_".$table;
+			break;
+			case "kategori_produk":
+				$table = "cl_".$table;
+			break;
+			case "perangkat_kasir":
+				$table = "tbl_".$table;
 			break;
 		}
 		

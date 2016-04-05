@@ -1,12 +1,12 @@
 <fieldset>
 	<legend>Form Kategori Produk</legend>
 <div class="span12">
-	<form class="form-horizontal" id="form_supplier" url="{$host}backend/simpan_data/tbl_{$main}" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" id="form_kategori_produk" url="{$host}backend/cruddata/{$main}" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="id" value="{$data.id|default:''}">
 		<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
 		
 		{include file="template/input_form.html" type='text' label="Nama Kategori" id="nama_kategori" name="nama_kategori" value="{$data.nama_kategori|default:''}" }
-		{include file="template/input_form.html" type='select' label="Status" id="status" name="status" option={$combo_status|default:''} }
+		{include file="template/input_form.html" type='select' label="Status" id="status" name="status" option={$status|default:''} }
 		
 		<div class="control-group">
 			<label class="control-label" for="form-field-1"></label>
@@ -16,3 +16,24 @@
 		</div>			
 	</form>
 </div>
+
+<script>
+	$('#simpan_{$main}').bind('click', function(){
+		submit_form('form_kategori_produk',function(r){
+			if(r==1){
+				$.messager.alert('JResto Soft',"Data Tersimpan",'info');
+				$('#grid_{$main}').datagrid('reload');
+				$('#grid_nya_{$main}').show();
+				$('#detil_nya_{$main}').html('').hide();
+			}
+			else{
+				$.messager.alert('JResto Soft', "Gagal", 'error');
+				console.log(r);
+			}
+		});
+	});
+	$('#batal_{$main}').click(function(){
+		$('#grid_nya_{$main}').show();
+		$('#detil_nya_{$main}').html('').hide();
+	});	
+</script>

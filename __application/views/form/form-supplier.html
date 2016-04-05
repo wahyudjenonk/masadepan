@@ -1,7 +1,7 @@
 <fieldset>
 	<legend>Form Supplier</legend>
 	<div class="span10">
-		<form class="form-horizontal" id="form_supplier" url="{$host}backend/cruddata/tbl_{$main}" method="post" enctype="multipart/form-data">
+		<form class="form-horizontal" id="form_supplier" url="{$host}backend/cruddata/{$main}" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="id" value="{$data.id|default:''}">
 			<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
 			

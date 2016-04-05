@@ -47,7 +47,8 @@ class backend extends CI_Controller {
 				$this->smarty->assign("acak", md5(date('YmdHis').'ind') );				
 				
 				if($sts_crud == 'edit'){
-					$table = "tbl_".$p1;
+					$table = $this->input->post('ts');
+					
 					$id = $this->input->post('id');
 					$data = $this->db->get_where($table, array('id'=>$id) )->row_array();
 					$this->smarty->assign('data', $data);
@@ -57,6 +58,16 @@ class backend extends CI_Controller {
 					case "produk":
 						$this->smarty->assign('cl_kategori_id', $this->lib->fillcombo('cl_kategori_produk', 'return', ($sts_crud == 'edit' ? $data['cl_kategori_id'] : "") ) );
 						$this->smarty->assign('status', $this->lib->fillcombo('status', 'return', ($sts_crud == 'edit' ? $data['status'] : "") ) );
+					break;
+					case "kategori_produk":
+						$this->smarty->assign('status', $this->lib->fillcombo('status', 'return', ($sts_crud == 'edit' ? $data['status'] : "") ) );
+					break;
+					case "perangkat_kasir":
+						$this->smarty->assign('perangkat_id', $this->lib->randomString('20', 'angkahuruf') );
+						$this->smarty->assign('tbl_gerai_outlet_id', $this->lib->fillcombo('tbl_gerai_outlet_id', 'return', ($sts_crud == 'edit' ? $data['tbl_gerai_outlet_id'] : "") ) );
+					break;
+					case "promo":
+						$this->smarty->assign('flag_outlet', $this->lib->fillcombo('flag_outlet', 'return', ($sts_crud == 'edit' ? $data['flag_outlet'] : "") ) );
 					break;
 				}
 				

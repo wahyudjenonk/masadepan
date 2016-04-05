@@ -1,0 +1,41 @@
+<fieldset>
+	<legend>Form Perangkat Kasir</legend>
+	<div class="span12">
+		<form class="form-horizontal" id="form_{$main}" url="{$host}backend/cruddata/{$main}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="{$data.id|default:''}">
+			<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
+			
+			{include file="template/input_form.html" type='text' label="Nama Perangkat" id="nama_perangkat" name="nama_perangkat" value="{$data.nama_perangkat|default:''}" }
+			{include file="template/input_form.html" type='text' label="ID Perangkat" id="perangkat_id" name="perangkat_id" value="{$data.perangkat_id|default:$perangkat_id}"  read="readonly"}
+			{include file="template/input_form.html" type='select' label="Gerai / Outlet" id="tbl_gerai_outlet_id" name="tbl_gerai_outlet_id" option={$tbl_gerai_outlet_id|default:''} }
+			
+			<div class="control-group">
+				<label class="control-label" for="form-field-1"></label>
+				<div class="controls">
+					{include file="template/button_save.html" id_simpan="simpan_{$main}" id_batal="batal_{$main}" }
+				</div>
+			</div>			
+		</form>
+	</div>
+</fieldset>
+
+<script>
+	$('#simpan_{$main}').bind('click', function(){
+		submit_form('form_{$main}',function(r){
+			if(r==1){
+				$.messager.alert('JResto Soft',"Data Tersimpan",'info');
+				$('#grid_{$main}').datagrid('reload');
+				$('#grid_nya_{$main}').show();
+				$('#detil_nya_{$main}').html('').hide();
+			}
+			else{
+				$.messager.alert('JResto Soft', "Gagal", 'error');
+				console.log(r);
+			}
+		});
+	});
+	$('#batal_{$main}').click(function(){
+		$('#grid_nya_{$main}').show();
+		$('#detil_nya_{$main}').html('').hide();
+	});	
+</script>

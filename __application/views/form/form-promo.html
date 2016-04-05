@@ -1,0 +1,51 @@
+<fieldset>	
+	<legend>Form Promo</legend>
+	<div class="span11">
+		<form class="form-horizontal" id="form_{$main}" url="{$host}backend/cruddata/{$main}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="{$data.id|default:''}">
+			<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
+			
+			{include file="template/input_form.html" type='text' label="Nama Promo" id="nama_promo" name="nama_promo" value="{$data.nama_promo|default:''}" }
+			{include file="template/input_form.html" type='text' label="Tanggal Mulai" id="tanggal_mulai" name="tanggal_mulai" value="" }
+			{include file="template/input_form.html" type='text' label="Tanggal Berakhir" id="tanggal_berakhir" name="tanggal_berakhir" value="" }
+			<div class="control-group">
+				<label class="control-label" for="form-field-1">Deskripsi Promo</label>
+				<div class="controls">
+					{include file="template/editor.html" id="deskripsi_{$main}_{$acak}" name="deskripsi" height="150" value="{$data.deskripsi|default:''}"}
+				</div>
+			</div>			
+			{include file="template/input_form.html" type='select' label="Untuk Semua Outlet" id="flag_outlet" name="flag_outlet" option={$flag_outlet|default:''} }
+			
+			<div class="control-group">
+				<label class="control-label" for="form-field-1"></label>
+				<div class="controls">
+					{include file="template/button_save.html" id_simpan="simpan_{$main}" id_batal="batal_{$main}" }
+				</div>
+			</div>			
+		</form>
+	</div>
+</fieldset>
+
+<script>
+	$('#batal_{$main}').click(function(){
+		tinyMCE.get("deskripsi_{$main}_{$acak}").save();
+		$('#grid_nya_{$main}').show();
+		$('#detil_nya_{$main}').html('').hide();
+	});
+	
+	$('#simpan_{$main}').click(function(){
+		tinyMCE.get("deskripsi_{$main}_{$acak}").save();
+		submit_form('form_supplier',function(r){
+			if(r==1){
+				$.messager.alert('JResto Soft',"Data Tersimpan",'info');
+				$('#grid_{$main}').datagrid('reload');
+				$('#grid_nya_{$main}').show();
+				$('#detil_nya_{$main}').html('').hide();
+			}else{
+				$.messager.alert('JResto Soft',"Gagal",'error');
+				console.log(r);
+			}
+		});
+
+	});
+</script>
