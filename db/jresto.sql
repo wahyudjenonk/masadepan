@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2016-04-02 15:29:03
+Date: 2016-04-05 21:07:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,21 +20,23 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `cl_kategori_produk`;
 CREATE TABLE `cl_kategori_produk` (
-  `id_kategori` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama_kategori` varchar(100) DEFAULT NULL,
-  `tgl_buat` date DEFAULT NULL,
-  `user_create` varchar(100) DEFAULT NULL,
-  `tgl_update` date DEFAULT NULL,
-  `user_update` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `create_date` date DEFAULT NULL,
+  `create_by` varchar(100) DEFAULT NULL,
+  `update_date` date DEFAULT NULL,
+  `update_by` varchar(100) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of cl_kategori_produk
 -- ----------------------------
-INSERT INTO `cl_kategori_produk` VALUES ('1', 'Makanan', '2012-07-15', 'Administrator', '2012-07-19', 'Administrator');
-INSERT INTO `cl_kategori_produk` VALUES ('2', 'Minuman', '2012-07-15', 'Administrto', null, null);
-INSERT INTO `cl_kategori_produk` VALUES ('3', 'Paket', null, null, null, null);
+INSERT INTO `cl_kategori_produk` VALUES ('1', 'Makanan', '2012-07-15', 'Administrator', '2012-07-19', 'Administrator', null);
+INSERT INTO `cl_kategori_produk` VALUES ('2', 'Minuman', '2012-07-15', 'Administrto', null, null, null);
+INSERT INTO `cl_kategori_produk` VALUES ('3', 'Paket', null, null, null, null, null);
+INSERT INTO `cl_kategori_produk` VALUES ('4', 'Dessert Makanan', '2016-04-04', 'admin', '2016-04-04', 'admin', '1');
 
 -- ----------------------------
 -- Table structure for `cl_meja`
@@ -92,11 +94,13 @@ CREATE TABLE `tbl_gerai_outlet` (
   `update_by` varchar(100) DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_gerai_outlet
 -- ----------------------------
+INSERT INTO `tbl_gerai_outlet` VALUES ('1', 'Gerai Margo', null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_gerai_outlet` VALUES ('2', 'Gerai Detos', null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_harga_produk_peroutlet`
@@ -166,6 +170,28 @@ INSERT INTO `tbl_penjualan_outlet` VALUES ('TJT-20120920-0002', null, null, '201
 INSERT INTO `tbl_penjualan_outlet` VALUES ('TJT-20130217-0001', null, null, '2013-02-17 00:00:00', '0', 'Tunai', '0', '');
 
 -- ----------------------------
+-- Table structure for `tbl_perangkat_kasir`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_perangkat_kasir`;
+CREATE TABLE `tbl_perangkat_kasir` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nama_perangkat` varchar(100) DEFAULT NULL,
+  `tbl_gerai_outlet_id` int(11) DEFAULT NULL,
+  `perangkat_id` varchar(50) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `create_by` varchar(100) DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `update_by` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_perangkat_kasir
+-- ----------------------------
+INSERT INTO `tbl_perangkat_kasir` VALUES ('1', 'Kasir 1 Gerai Margo City', '1', '4XKRYKNQVFVBO5PHOKUM', null, '2016-04-05 07:49:00', 'admin', null, null);
+
+-- ----------------------------
 -- Table structure for `tbl_produk`
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_produk`;
@@ -190,6 +216,24 @@ CREATE TABLE `tbl_produk` (
 -- Records of tbl_produk
 -- ----------------------------
 INSERT INTO `tbl_produk` VALUES ('1', 'PRD-001', '2', null, 'Pizza Delicious', null, '40000', '2016-04-02 09:43:36', 'admin', '2016-04-02 10:02:15', 'admin', '20160402094336_PizzaDelicious.jpg', '0');
+
+-- ----------------------------
+-- Table structure for `tbl_promo`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_promo`;
+CREATE TABLE `tbl_promo` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nama_promo` varchar(255) DEFAULT NULL,
+  `tanggal_mulai` date DEFAULT NULL,
+  `tanggal_berakhir` date DEFAULT NULL,
+  `deskripsi` text,
+  `flag_outlet` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_promo
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `tbl_registrasi`
