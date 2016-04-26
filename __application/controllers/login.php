@@ -6,6 +6,7 @@ class Login extends CI_Controller {
 		parent::__construct();
 		$this->load->library('encrypt');
 		$this->host	= $this->config->item('base_url');
+		$this->smarty->assign('host',$this->host);
 	}
 	
 	public function index(){
@@ -13,7 +14,7 @@ class Login extends CI_Controller {
 		$pass=$this->db->escape_str($this->input->post('pwd'));
 		$error=false;
 		if($user && $pass){
-			$cek_user=$this->mbackend->getdata('tbl_user', 'row_array', $user);
+			$cek_user=$this->mbackend->getdata('user', 'row_array', $user);
 			//print_r($cek_user);exit;
 			if(count($cek_user)>0){
 				if(isset($cek_user['status']) && $cek_user['status']==1){
@@ -26,7 +27,7 @@ class Login extends CI_Controller {
 					}
 				}else{
 					$error=true;
-					$this->session->set_flashdata('error', 'USER Sudah Tidak Aktif Lagi');
+					$this->session->set_flashdata('error', 'USER Tidak Aktif ');
 				}
 			}else{
 				$error=true;
@@ -46,6 +47,30 @@ class Login extends CI_Controller {
 		$this->session->unset_userdata($this->config->item('user_data'), 'limit');
 		$this->session->sess_destroy();
 		header("Location: ".$this->host." ");
+	}
+	function register($p1="",$p2=""){
+		$usr="";
+		if($p2!=""){$usr=base64_decode($p2);}
+		if($p1=="notif"){
+			$this->load->library('lib');
+			$data=$this->mbackend->getdata('cek_user','get',$usr);
+			$this->lib->kirimemail("email_notif", $data['email'],$data['nama_user'],$data['password']);
+			return $this->smarty->display('registrasi/notif.html');
+		}else if($p1=="act"){
+			$data=$this->mbackend->getdata('cek_user','get',$usr);
+			if($this->mbackend->simpan_reg("act",$data['nama_user'])==1){
+				return $this->smarty->display('registrasi/act.html');
+			}
+		}
+		$opt="<option value='L'>Laki - laki </option><option value='L'>Wanita</option>";
+		$this->smarty->assign('opt',$opt);
+		$this->smarty->display('registrasi/register.html');
+	}
+	function simpan_reg(){
+		echo $this->mbackend->simpan_reg();
+	}
+	function cek_user(){
+		echo $this->mbackend->getdata('cek_user');
 	}
 
 }

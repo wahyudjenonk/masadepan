@@ -9,10 +9,32 @@ class mbackend extends CI_Model{
 	function getdata($type="", $balikan="", $p1="", $p2=""){
 		$where = " WHERE 1=1 ";
 		switch($type){
+			case "user":
+				$sql = " 
+					SELECT A.*
+					FROM tbl_user A WHERE A.nama_user='".$p1."'
+				";
+			break;
+			case "cek_user":
+				if($balikan=='get'){
+					$sql = " SELECT A.*	FROM tbl_user A 
+							WHERE A.nama_user='".$p1."'";
+					$res=$this->db->query($sql)->row_array();
+					return $res;
+				}
+				else{
+					$sql = " SELECT A.*	FROM tbl_user A 
+							WHERE A.nama_user='".$this->input->post('usr')."' OR A.email='".$this->input->post('email')."'";
+					$res=$this->db->query($sql)->row_array();
+					if(isset($res['nama_user'])){echo 2;}
+					else echo 1;
+					exit;
+				}
+			break;		
 			case "tbl_user":
 				$sql = " 
 					SELECT A.*
-					FROM tbl_registrasi A
+					FROM tbl_user A
 				";
 				if($p1=='edit'){
 					$sql .=" WHERE A.id=".$p2;
@@ -185,6 +207,34 @@ class mbackend extends CI_Model{
 			}else{
 				return $this->db->trans_commit();
 			}
+		}
+	}
+	
+	function simpan_reg($p1="",$p2=""){
+		$this->db->trans_begin();
+		$post = array();
+        foreach($_POST as $k=>$v){if($this->input->post($k)!=""){$post[$k] = $this->input->post($k);}}
+		//print_r($post);exit;
+		
+		if($p1=="act"){
+			$post['status']=1;
+			$post['act_date']=date('Y-m-d H:i:s');
+			$this->db->where('nama_user',$p2);
+			$this->db->update('tbl_user',$post);
+		}else{
+			unset($post['password2']);
+			//unset($post['password']);
+			$post['password']=$this->encrypt->encode($post['password']);
+			$post['reg_date']=date('Y-m-d H:i:s');
+			$post['status']=0;
+			$this->db->insert('tbl_user', $post);
+		}
+		if($this->db->trans_status() == false){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			return $this->db->trans_commit();
+			
 		}
 	}
 		

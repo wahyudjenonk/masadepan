@@ -145,6 +145,7 @@ class lib {
 	function kirimemail($type="", $email="", $p1="", $p2="", $p3="", $p4=""){
 		$ci =& get_instance();
 		$ci->load->library('My_PHPMailer');
+		$ci->load->library('encrypt');
 				
 		$html = "";
 		$subject = "";
@@ -161,6 +162,23 @@ class lib {
 					<br/>
 					<br/>
 					<a href='http://www.rogersalon.com/#news'>Continue</a>
+				";
+			break;
+			case "email_notif":
+				$subject = "Aktivasi User";
+				$html = "
+					<center>SELAMAT DATANG </center>
+					<br/>
+					<br/>
+					<h1>Aktivasi USER Jingga Resto</h1>
+					<br/>
+					Berikut User dan password yang anda registrasikan <br>
+					UserName : ".$p1."<br>
+					Password : ".$ci->encrypt->decode($p2)."<br>
+					silahkan klik link dibawah ini untuk melakukan aktivasi user. terima kasih atas partisipasinya
+					<br/>
+					<br/>
+					<a href='".$ci->config->item('base_url')."login/register/act/".base64_encode($p1)."'>aktivasi</a>
 				";
 			break;
 			case "email_reservasi":
@@ -220,7 +238,7 @@ class lib {
 			
 			if($ci->config->item('SMTP')) $mail->IsSMTP();
 			$mail->SMTPAuth   = $ci->config->item('SMTPAuth');       
-			$mail->SMTPSecure = "ssl";
+			$mail->SMTPSecure = "tls";
 			$mail->Port       = $ci->config->item('Port');                    
 			$mail->Host       = $ci->config->item('Host'); 
 			$mail->Username   = $ci->config->item('Username');     

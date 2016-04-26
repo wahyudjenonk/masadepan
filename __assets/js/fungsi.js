@@ -568,5 +568,8 @@ function showErrorAlert (reason, detail) {
 		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
 		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
 	}
-
+function konversi_pwd_text(id){
+	if($('input#'+id)[0].type=="password")$('input#'+id)[0].type = 'text';
+	else $('input#'+id)[0].type = 'password';
+}
 

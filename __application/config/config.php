@@ -10,7 +10,8 @@ $config['language']	= 'english';
 $config['charset'] = 'UTF-8';
 $config['enable_hooks'] = FALSE;
 $config['subclass_prefix'] = 'MY_';
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+//$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars'] 	= 'a-z 0-9~%.:_\-\=';
 $config['allow_get_array']		= TRUE;
 $config['enable_query_strings'] = FALSE;
 $config['controller_trigger']	= 'c';
@@ -48,12 +49,12 @@ $config['modeling'] = 'G0yz-cUyz1987';
 
 $config["SMTPAuth"]				= TRUE;
 $config["SMTP"]					= TRUE;
-$config["Port"]					= 465;
+$config["Port"]					= 587;
 $config["Host"]					= 'smtp.gmail.com';
 $config["Username"]				= 'jinggasinergiidea@gmail.com';
 $config["Password"]				= '7in664it50k';
-$config["EmaiFrom"]				= 'news@rogersalon.com';
-$config["EmaiFromName"]			= "Roger's Newsletter";
+$config["EmaiFrom"]				= 'sys@jingga.co.id';
+$config["EmaiFromName"]			= "Jingga Admin";
 
 
 /* End of file config.php */
