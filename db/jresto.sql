@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : Mysql - Localhost
-Source Server Version : 50516
+Source Server         : MysqlLocal
+Source Server Version : 50528
 Source Host           : localhost:3306
-Source Database       : jingga_cloud
+Source Database       : jresto
 
 Target Server Type    : MYSQL
-Target Server Version : 50516
+Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2016-04-05 21:07:14
+Date: 2016-04-26 22:04:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -71,12 +71,6 @@ CREATE TABLE `tbl_d_penjualan_outlet` (
 -- ----------------------------
 -- Records of tbl_d_penjualan_outlet
 -- ----------------------------
-INSERT INTO `tbl_d_penjualan_outlet` VALUES ('TJT-20120920-0001', '11003', '10', null, null);
-INSERT INTO `tbl_d_penjualan_outlet` VALUES ('TJK-20120920-0001', '21003', '10', null, null);
-INSERT INTO `tbl_d_penjualan_outlet` VALUES ('TJT-20120920-0002', '11003', '10', null, null);
-INSERT INTO `tbl_d_penjualan_outlet` VALUES ('TJT-20120920-0002', '21004', '5', null, null);
-INSERT INTO `tbl_d_penjualan_outlet` VALUES ('TJT-20130217-0001', '21003', '2', null, null);
-INSERT INTO `tbl_d_penjualan_outlet` VALUES ('-1', '21003', '10', null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_gerai_outlet`
@@ -119,11 +113,13 @@ CREATE TABLE `tbl_harga_produk_peroutlet` (
   `update_date` datetime DEFAULT NULL,
   `update_by` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_harga_produk_peroutlet
 -- ----------------------------
+INSERT INTO `tbl_harga_produk_peroutlet` VALUES ('1', '1', '1', '40000', '0', '0', '40000', null, null, null, null);
+INSERT INTO `tbl_harga_produk_peroutlet` VALUES ('2', '2', '1', '50000', '0', '0', '50000', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_member`
@@ -164,10 +160,6 @@ CREATE TABLE `tbl_penjualan_outlet` (
 -- ----------------------------
 -- Records of tbl_penjualan_outlet
 -- ----------------------------
-INSERT INTO `tbl_penjualan_outlet` VALUES ('TJK-20120920-0001', null, null, '2012-09-20 00:00:00', '0', 'Kredit', '0', 'BL');
-INSERT INTO `tbl_penjualan_outlet` VALUES ('TJT-20120920-0001', null, null, '2012-09-20 00:00:00', '0', 'Tunai', '5', '');
-INSERT INTO `tbl_penjualan_outlet` VALUES ('TJT-20120920-0002', null, null, '2012-09-20 00:00:00', '0', 'Tunai', '0', '');
-INSERT INTO `tbl_penjualan_outlet` VALUES ('TJT-20130217-0001', null, null, '2013-02-17 00:00:00', '0', 'Tunai', '0', '');
 
 -- ----------------------------
 -- Table structure for `tbl_perangkat_kasir`
@@ -210,12 +202,13 @@ CREATE TABLE `tbl_produk` (
   `gambar` varchar(100) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_produk
 -- ----------------------------
 INSERT INTO `tbl_produk` VALUES ('1', 'PRD-001', '2', null, 'Pizza Delicious', null, '40000', '2016-04-02 09:43:36', 'admin', '2016-04-02 10:02:15', 'admin', '20160402094336_PizzaDelicious.jpg', '0');
+INSERT INTO `tbl_produk` VALUES ('2', 'PRD-002', '1', null, 'Donat', null, '50000', null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_promo`
@@ -299,12 +292,18 @@ CREATE TABLE `tbl_user` (
   `jenis_kelamin` varchar(1) DEFAULT NULL,
   `tlp` varchar(15) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
+  `alamat` text,
+  `reg_date` datetime DEFAULT NULL,
+  `act_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'admin', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1');
-INSERT INTO `tbl_user` VALUES ('2', 'kasir_1', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '2', 'Lukman Santoso', null, 'L', null, '1');
-INSERT INTO `tbl_user` VALUES ('4', 'kasir_2', 'R2s+MzlfaarWwB2lVu9qQX5V1jEjKvkfMuZHnmzayO2kB4Engg9px0X3OtpYlhMx1ADCOlkDcC3pvjo5OvIlMg==', '2', 'Heri Marbot', 'guest@gmail.com', 'L', '021-99889898', '1');
+INSERT INTO `tbl_user` VALUES ('1', 'admin', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '1', 'Goyz Crotz', 'goyz87@gmail.com', 'L', '0251-388716', '1', null, null, null);
+INSERT INTO `tbl_user` VALUES ('2', 'kasir_1', 'w8nRgzJ8q9W6/04js1nnJwKOHTideqmajzAcg7qmotOyPsh99akca9HqPPuK9U0A8po69U8txljPE/dGpyPTNg==', '2', 'Lukman Santoso', null, 'L', null, '1', null, null, null);
+INSERT INTO `tbl_user` VALUES ('4', 'kasir_2', 'R2s+MzlfaarWwB2lVu9qQX5V1jEjKvkfMuZHnmzayO2kB4Engg9px0X3OtpYlhMx1ADCOlkDcC3pvjo5OvIlMg==', '2', 'Heri Marbot', 'guest@gmail.com', 'L', '021-99889898', '1', null, null, null);
+INSERT INTO `tbl_user` VALUES ('6', 'tes', '0tw2i1/YGw6xg5YIXx4RdY/yd+l3F77rYuW48HKN0RnRTvEc37UEx/GA8SXs25vI4CeM7F41PDz3Cv136+p9gw==', null, 'xxx', 'tes@xx.com', 'L', '123', '0', 'xxx', '2016-04-26 20:52:08', null);
+INSERT INTO `tbl_user` VALUES ('7', 'tos', 'ToRHg68c/nRHXe3Gjulf04pnG5NNUfzrCFyzr7kcimGftSg4xMRpMuPAyLWkfGqPpb8pv3N+6JBF08+GsIIo7Q==', null, 'cc', 'tos@xx.com', 'L', '123', '0', 'c', '2016-04-26 20:54:07', null);
+INSERT INTO `tbl_user` VALUES ('10', 'yogi', '0saUXP8gaQRexV5exjcip5z82rNUccFKfSjmH3eW9pTo0m21S+2FuiG2DMpGvUUZoocL0iB5I1uJM5b+YdGADQ==', null, 'Goyz', 'yogi_p4try4@yahoo.com', 'L', '332123', '1', 'XXXX', '2016-04-26 21:38:50', '2016-04-26 21:49:11');
