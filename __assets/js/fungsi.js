@@ -134,8 +134,17 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			kolom[modnya] = [	
 				{field:'nama_kategori',title:'Kategori',width:150, halign:'center',align:'left'},
 				{field:'hpp',title:'Harga Modal (HPP)',width:200, halign:'center',align:'right'},
+				{field:'status',title:'Status Aktif',width:150, halign:'center',align:'center',
+					formatter: function(value,row,index){
+						if (row.status == '1'){
+							return "<font color='green'>Aktif</font>";
+						} else if (row.status == '0'){
+							return "<font color='red'>Tidak Aktif</font>";
+						}
+					}
+				},
 				{field:'create_by',title:'Dibuat Oleh',width:130, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:130, halign:'center',align:'center'},
+				{field:'tanggal_buat',title:'Dibuat Tgl',width:150, halign:'center',align:'center'},
 			]
 		break;
 		case "supplier":
@@ -147,12 +156,20 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'nama_supplier',title:'Nama Supplier',width:300, halign:'center',align:'left'},
 			]
 			kolom[modnya] = [	
+				{field:'kontak',title:'Kontak',width:200, halign:'center',align:'left'},
 				{field:'no_telp',title:'No. Telp',width:150, halign:'center',align:'left'},
-				{field:'email',title:'Email',width:150, halign:'center',align:'left'},
-				{field:'contact_person',title:'Kontak',width:150, halign:'center',align:'left'},
-				{field:'statu',title:'Status',width:150, halign:'center',align:'left'},
+				{field:'email',title:'Email',width:200, halign:'center',align:'left'},
+				{field:'status',title:'Status Aktif',width:150, halign:'center',align:'center',
+					formatter: function(value,row,index){
+						if (row.status == '1'){
+							return "<font color='green'>Aktif</font>";
+						} else if (row.status == '0'){
+							return "<font color='red'>Tidak Aktif</font>";
+						}
+					}
+				},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:120, halign:'center',align:'center'},
+				{field:'tanggal_buat',title:'Dibuat Tgl',width:150, halign:'center',align:'center'},
 			]
 		break;
 		case "pembelian":
@@ -187,17 +204,18 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			]
 		break;
 		case "outlet":
-			judulnya = "List Gerai/Outlet";
-			urlnya = "tbl_gerai";
+			judulnya = "";
+			urlnya = "outlet";
 			fitnya = true;
 			urlglobal = host+'backend/getdata/'+urlnya;
 			frozen[modnya] = [	
-				{field:'judul_ind',title:'Nama Gerai',width:300, halign:'center',align:'left'},
+				{field:'nama_outlet',title:'Nama Gerai',width:300, halign:'center',align:'left'},
 			]
 			kolom[modnya] = [	
-				{field:'create_by',title:'Kota',width:150, halign:'center',align:'left'},
+				{field:'pic',title:'PIC',width:200, halign:'center',align:'left'},
+				{field:'telp',title:'No. Telp',width:150, halign:'center',align:'left'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:120, halign:'center',align:'center'},
+				{field:'tanggal_buat',title:'Dibuat Tgl',width:150, halign:'center',align:'center'},
 			]
 		break;
 		case "perangkat_kasir":
@@ -209,10 +227,10 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				{field:'nama_perangkat',title:'Nama Perangkat',width:300, halign:'center',align:'left'},
 			]
 			kolom[modnya] = [	
-				{field:'nama_outlet',title:'Gerai / Outlet',width:150, halign:'center',align:'left'},
+				{field:'nama_outlet',title:'Gerai / Outlet',width:200, halign:'center',align:'left'},
 				{field:'perangkat_id',title:'ID Perangkat',width:200, halign:'center',align:'center'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:120, halign:'center',align:'center'},
+				{field:'tanggal_buat',title:'Dibuat Tgl',width:150, halign:'center',align:'center'},
 			]
 		break;
 		case "pelanggan":
@@ -238,7 +256,7 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 			kolom[modnya] = [	
 				{field:'nama_kategori',title:'Nama Kategori',width:200, halign:'center',align:'left'},
 				{field:'create_by',title:'Dibuat Oleh',width:100, halign:'center',align:'left'},
-				{field:'create_date',title:'Dibuat Tgl',width:100, halign:'center',align:'center'},
+				{field:'tanggal_buat',title:'Dibuat Tgl',width:150, halign:'center',align:'center'},
 			]
 		break;
 		case "promo":
@@ -308,14 +326,25 @@ function genGrid(modnya, divnya, lebarnya, tingginya){
 				}
 			}
 			
-		}
+		},
+		onLoadSuccess: function(data){
+			if(data.total == 0){
+				var $panel = $(this).datagrid('getPanel');
+				var $info = '<div class="info-empty" style="margin-top:20%;">Data Tidak Tersedia</div>';
+				$($panel).find(".datagrid-view").append($info);
+				//$('#edit').linkbutton({disabled:true});
+				//$('#del').linkbutton({disabled:true});
+			}else{
+				$($panel).find(".datagrid-view").append('');
+			}
+		},
 	});
 }
 
 
 function genform(type, modulnya, submodulnya, stswindow, tabel){
 	var urlpost = host+'backend/get_form/'+submodulnya+'/form';
-	var urldelete = host+'backend/simpan_data/'+tabel;
+	var urldelete = host+'backend/cruddata/'+submodulnya;
 	var id_tambahan = "";
 	
 	switch(submodulnya){
@@ -323,13 +352,12 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 			table="tbl_produk";
 			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
-		
 		case "supplier":
 			table="tbl_supplier";
 			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
 		case "outlet":
-			table="tbl_outlet";
+			table = "tbl_gerai_outlet";
 			urlpost = host+'backend/getdisplay/get-form/'+submodulnya;
 		break;
 		case "perangkat_kasir":
@@ -385,21 +413,24 @@ function genform(type, modulnya, submodulnya, stswindow, tabel){
 						}
 					});
 				}else if(type=='delete'){
-					if(confirm("Do You Want To Delete This Data ?")){
-						loadingna();
-						$.post(urldelete, {id:row.id, 'sts_crud':'delete'}, function(r){
-							if(r==1){
-								winLoadingClose();
-								$.messager.alert('Roger Salon',"Row Data Was Deleted",'info');
-								$('#grid_'+submodulnya).datagrid('reload');								
-							}
-							else{
-								winLoadingClose();
-								console.log(r)
-								$.messager.alert('Roger Salon',"Failed",'error');
-							}
-						});	
-					}
+					//if(confirm("Anda Yakin Menghapus Data Ini ?")){
+					$.messager.confirm('JResto Soft','Anda Yakin Menghapus Data Ini ?',function(re){
+						if(re){
+							loadingna();
+							$.post(urldelete, {id:row.id, 'sts_crud':'delete'}, function(r){
+								if(r==1){
+									winLoadingClose();
+									$.messager.alert('JResto Soft',"Data Terhapus",'info');
+									$('#grid_'+submodulnya).datagrid('reload');								
+								}else{
+									winLoadingClose();
+									console.log(r)
+									$.messager.alert('JResto Soft',"Gagal Menghapus Data",'error');
+								}
+							});	
+						}
+					});	
+					//}
 				}
 				
 			}
@@ -538,7 +569,7 @@ function winLoadingClose(){
     //$(divcontainer).html('');
 }
 function loadingna(){
-	windowLoading("<img src='"+host+"__assets/images/loading.gif' style='position: fixed;top: 50%;left: 50%;margin-top: -10px;margin-left: -25px;'/>","Please Wait",200,100);
+	windowLoading("<img src='"+host+"__assets/img/loading.gif' style='position: fixed;top: 50%;left: 50%;margin-top: -10px;margin-left: -25px;'/>","Please Wait",200,100);
 }
 
 function NumberFormat(value) {
