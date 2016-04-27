@@ -42,26 +42,30 @@ class mbackend extends CI_Model{
 			break;		
 			case "produk":
 				$sql = "
-					SELECT A.*, B.nama_kategori
+					SELECT A.*, B.nama_kategori, 
+						DATE_FORMAT(A.create_date,'%d %b %Y %h:%i %p') as tanggal_buat
 					FROM tbl_produk A
-					LEFT JOIN cl_kategori_produk B ON B.id_kategori = A.cl_kategori_id
+					LEFT JOIN cl_kategori_produk B ON B.id = A.cl_kategori_id
 				";
 			break;		
 			case "supplier":
 				$sql = "
-					SELECT A.*
+					SELECT A.*,
+						DATE_FORMAT(A.create_date,'%d %b %Y %h:%i %p') as tanggal_buat
 					FROM tbl_supplier A
 				";
 			break;		
 			case "kategori_produk":
 				$sql = "
-					SELECT A.*
+					SELECT A.*,
+						DATE_FORMAT(A.create_date,'%d %b %Y %h:%i %p') as tanggal_buat
 					FROM cl_kategori_produk A
 				";
 			break;		
 			case "perangkat_kasir":
 				$sql = "
-					SELECT A.*, B.nama_outlet
+					SELECT A.*, B.nama_outlet,
+						DATE_FORMAT(A.create_date,'%d %b %Y %h:%i %p') as tanggal_buat
 					FROM tbl_perangkat_kasir A
 					LEFT JOIN tbl_gerai_outlet B ON B.id = A.tbl_gerai_outlet_id 
 				";
@@ -70,6 +74,13 @@ class mbackend extends CI_Model{
 				$sql = "
 					SELECT A.*
 					FROM tbl_promo A
+				";
+			break;
+			case "outlet":
+				$sql = "
+					SELECT *, 
+						DATE_FORMAT(create_date,'%d %b %Y %h:%i %p') as tanggal_buat
+					FROM tbl_gerai_outlet
 				";
 			break;		
 		}
@@ -172,16 +183,27 @@ class mbackend extends CI_Model{
 					}
 				}			
 				
-				unset($data['gambar_old']);
+				if($sts_crud == 'delete'){
+					$getimagename = $this->db->get_where('tbl_produk', array('id'=>$id) )->row_array();
+					$this->lib->hapus_file('satu', $path.$getimagename['gambar']);
+				}else{
+					unset($data['gambar_old']);
+				}
 			break;
 			case "supplier":
 				$table = "tbl_".$table;
+				if($sts_crud == 'add'){
+					$data['status'] = 1;
+				}
 			break;
 			case "kategori_produk":
 				$table = "cl_".$table;
 			break;
 			case "perangkat_kasir":
 				$table = "tbl_".$table;
+			break;
+			case "outlet":
+				$table = "tbl_gerai_outlet";
 			break;
 		}
 		
@@ -194,7 +216,7 @@ class mbackend extends CI_Model{
 			$data['update_by'] = $this->auth['nama_user'];
 			$this->db->update($table, $data, array($field_id=>$id) );
 		}elseif($sts_crud == 'delete'){
-			
+			$this->db->delete($table, array($field_id=>$id) );
 		}
 		
 		if($this->db->trans_status() == false){

@@ -69,6 +69,9 @@ class backend extends CI_Controller {
 					case "promo":
 						$this->smarty->assign('flag_outlet', $this->lib->fillcombo('flag_outlet', 'return', ($sts_crud == 'edit' ? $data['flag_outlet'] : "") ) );
 					break;
+					case "supplier":
+						$this->smarty->assign('status', $this->lib->fillcombo('status', 'return', ($sts_crud == 'edit' ? $data['status'] : "") ) );
+					break;
 				}
 				
 				$this->smarty->assign("main", $p1);

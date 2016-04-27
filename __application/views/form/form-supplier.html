@@ -10,7 +10,7 @@
 			{include file="template/input_form.html" type='text' label="Email" id="email" name="email" value="{$data.email|default:''}" }
 			{include file="template/input_form.html" type='text' label="Nama Kontak" id="kontak" name="kontak" value="{$data.kontak|default:''}" }
 			<div class="control-group">
-				<label class="control-label" for="form-field-1">Alamat Supplier</label>
+				<label class="control-label" for="form-field-1">Alamat</label>
 				<div class="controls">
 					{include file="template/editor.html" id="alamat_{$main}_{$acak}" name="alamat" height="150" value="{$data.alamat|default:''}"}
 				</div>
@@ -43,6 +43,7 @@
 				$('#grid_{$main}').datagrid('reload');
 				$('#grid_nya_{$main}').show();
 				$('#detil_nya_{$main}').html('').hide();
+				$('.info-empty').remove();				
 			}else{
 				$.messager.alert('JResto Soft',"Gagal",'error');
 				console.log(r);

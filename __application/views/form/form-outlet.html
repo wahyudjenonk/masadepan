@@ -1,19 +1,20 @@
 <fieldset>
 	<legend>Form Outlet</legend>
-<div class="span12">
-	<form class="form-horizontal" id="form_supplier" url="{$host}backend/simpan_data/tbl_{$main}" method="post" enctype="multipart/form-data">
+<div class="span10">
+	<form class="form-horizontal" id="form_outlet" url="{$host}backend/cruddata/{$main}" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="id" value="{$data.id|default:''}">
 		<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
 		
 		{include file="template/input_form.html" type='text' label="Nama Outlet" id="nama_outlet" name="nama_outlet" value="{$data.nama_outlet|default:''}" }
-		{include file="template/input_form.html" type='text' label="Kota" id="kota" name="kota" value="{$data.kota|default:''}" }
+		{include file="template/input_form.html" type='text' label="No. Telp" id="telp" name="telp" value="{$data.telp|default:''}" }
+		{include file="template/input_form.html" type='text' label="PIC" id="pic" name="pic" value="{$data.pic|default:''}" }
 		<div class="control-group">
-			<label class="control-label" for="form-field-1">Alamat Outlet</label>
+			<label class="control-label" for="form-field-1">Alamat Supplier</label>
 			<div class="controls">
-				<textarea class="span10" id="alamat_supplier" cols='15' rows='10' name="alamat_suppler">{$data.alamat_outlet|default:''}</textarea>
+				{include file="template/editor.html" id="alamat_{$main}_{$acak}" name="alamat" height="150" value="{$data.alamat|default:''}"}
 			</div>
-		</div>		
-		{include file="template/input_form.html" type='text' label="No. Telp" id="no_telp" name="no_telp" value="{$data.no_telp|default:''}" }
+		</div>
+		
 		<div class="control-group">
 			<label class="control-label" for="form-field-1"></label>
 			<div class="controls">
@@ -22,3 +23,31 @@
 		</div>			
 	</form>
 </div>
+
+<script>
+	$('#batal_{$main}').click(function(){
+		tinyMCE.get("alamat_{$main}_{$acak}").save();
+		$('#grid_nya_{$main}').show();
+		$('#detil_nya_{$main}').html('').hide();
+	});
+	
+	$('#simpan_{$main}').click(function(){
+		tinyMCE.get("alamat_{$main}_{$acak}").save();
+		submit_form('form_outlet',function(r){
+			if(r==1){
+				$.messager.alert('JResto Soft',"Data Tersimpan",'info');
+				$('#grid_{$main}').datagrid('reload');
+				$('#grid_nya_{$main}').show();
+				$('#detil_nya_{$main}').html('').hide();
+				$('.info-empty').remove();
+				//var $panel = $('#grid_{$main}').datagrid('getPanel');
+				//$($panel).find(".datagrid-view").append('');
+				
+			}else{
+				$.messager.alert('JResto Soft',"Data Gagal Tersimpan",'error');
+				console.log(r);
+			}
+		});
+
+	});
+</script>
