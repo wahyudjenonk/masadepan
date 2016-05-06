@@ -19,6 +19,10 @@ class services extends CI_Controller {
 		if($p1 == "get_produk"){
 			echo $this->mservices->getdata('produk');
 		}
+		if($p1 == "get_kode"){
+			//echo "xxx";exit;
+			echo $this->mservices->getdata('gerai');
+		}
 		if($p1 == "upload_penjualan"){
 			echo "AAA";exit;
 			//echo $this->mservices->getdata('produk');

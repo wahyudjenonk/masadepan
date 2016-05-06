@@ -15,6 +15,21 @@ class mservices extends CI_Model {
 				$sql="SELECT * FROM tbl_harga_produk_peroutlet WHERE tbl_gerai_outlet_id=".$this->input->post('id_outlet');
 				$data=$this->db->query($sql)->result_array();
 			break;
+			case "gerai":
+				//print_r($_POST);exit;
+				$sql="SELECT B.*,A.nama_perangkat,A.perangkat_id 
+					  FROM tbl_perangkat_kasir A 
+					  LEFT JOIN tbl_gerai_outlet B ON A.tbl_gerai_outlet_id=B.id 
+					  WHERE A.perangkat_id='".$this->input->post('kode')."'";
+				//$sql="SELECT * FROM tbl_perangkat_kasir WHERE perangkat_id=1";
+				$data=$this->db->query($sql)->row_array();
+				if(count($data)==0)$data=array('status'=>0);
+				else{
+					$sql="UPDATE tbl_perangkat_kasir set status=1 WHERE perangkat_id='".$this->input->post('kode')."'";
+					$this->db->query($sql);
+					$data['stat']=1;
+				}
+			break;
 		}
 		
 		return json_encode($data);
