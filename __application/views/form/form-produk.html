@@ -10,8 +10,8 @@
 			{include file="template/input_form.html" type='text' label="Kode Produk" id="kode_produk" name="kode_produk" value="{$data.kode_produk|default:''}" }
 			{include file="template/input_form.html" type='select' label="Kategori" id="cl_kategori_id" name="cl_kategori_id" option={$cl_kategori_id|default:''} }
 			{include file="template/input_form.html" type='text' label="Harga Pokok Penjualan (HPP)" id="hpp" name="hpp" value="{$data.hpp|default:''}" }
-			{include file="template/input_form.html" type='text' label="Pajak" id="pajak" name="pajak" value="{$pajak|default:''}"  read="readonly"}
-			{include file="template/input_form.html" type='text' label="HPP + Pajak" id="hpp_pajak" name="hpp_pajak" value="{$hpp_pajak|default:''}"  read="readonly"}
+			{include file="template/input_form.html" type='text' label="Margin (%)" id="margin" name="margin" value="{$margin|default:''}"}
+			{include file="template/input_form.html" type='text' label="HPP + Margin" id="harga_jual" name="harga_jual" value="{$harga_jual|default:''}"  read="readonly"}
 			<div class="control-group">
 				<label class="control-label" for="form-field-1">Foto Produk</label>
 				<div class="controls">
@@ -57,4 +57,12 @@
 		$('#grid_nya_{$main}').show();
 		$('#detil_nya_{$main}').html('').hide();
 	});	
+	$('#margin').on('change',function(){
+		if($('#hpp').val()!=""){
+			var untung=((parseFloat($('#hpp').val())*parseFloat($(this).val()))/100);
+			var harga_jual=(parseFloat($('#hpp').val()) + untung);
+			$('#harga_jual').val(harga_jual);
+			console.log(harga_jual);
+		}
+	});
 </script>

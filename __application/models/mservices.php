@@ -12,8 +12,35 @@ class mservices extends CI_Model {
 		$where = "";
 		switch($type){
 			case "produk":
-				$sql="SELECT * FROM tbl_harga_produk_peroutlet WHERE tbl_gerai_outlet_id=".$this->input->post('id_outlet');
+				//$sql="SELECT * FROM tbl_harga_produk_peroutlet WHERE tbl_gerai_outlet_id=".$this->input->post('id_outlet');
+				//$sql="SELECT * FROM tbl_produk";
+				$sts=0;
+				$sql="SELECT * FROM tbl_log_data_transfer WHERE tbl_gerai_outlet_id=".$this->input->post('id');
+				$res=$this->db->query($sql)->result_array();
+				if(count($res)>0){
+					$sql="SELECT A.id as id_cloud,A.kode_produk,A.nama_produk,A.deskripsi,A.hpp,
+							A.margin,A.harga_jual,A.`status`,A.gambar,A.status_log
+							FROM tbl_produk A
+							WHERE A.id NOT IN (
+								SELECT DISTINCT A.tbl_produk_id FROM tbl_log_data_transfer A WHERE A.tbl_gerai_outlet_id=".$this->input->post('id')."
+							) AND A.`status`=1";
+					
+				}
+				else{
+					$sql="SELECT A.id as id_cloud,A.kode_produk,A.nama_produk,A.deskripsi,
+							A.hpp,A.margin,A.harga_jual,A.`status`,A.gambar,A.status_log
+							FROM tbl_produk A WHERE A.`status`=1";
+							
+				}
 				$data=$this->db->query($sql)->result_array();
+				foreach($data as $v){
+					$ins_log=array('tbl_produk_id'=>$v['id_cloud'],
+								   'tbl_gerai_outlet_id'=>$this->input->post('id'),
+								   'create_date'=>date('Y-m-d H:i:s'));
+					if($this->db->insert('tbl_log_data_transfer',$ins_log))$sts=1;
+				}
+				if($sts==1){return json_encode($data);}
+				else{return json_encode(array('msg'=>0));}
 			break;
 			case "gerai":
 				//print_r($_POST);exit;

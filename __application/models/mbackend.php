@@ -165,12 +165,18 @@ class mbackend extends CI_Model{
 						if($data['gambar_old'] != ""){
 							$this->lib->hapus_file('satu', $path.$data['gambar_old']);
 						}
+						$data['status_log'] = 'E';
+						$this->db->where('tbl_produk_id',$id);
+						$this->db->delete('tbl_log_data_transfer');
+						
+						
 					}
 					
 					$nm = str_replace(' ', '', $data['nama_produk']);
 					$file = date('YmdHis')."_".$nm;
 					$filename =  $this->lib->uploadnong($path, 'file_produk', $file); //$file.'.'.$extension;
 					$data['gambar'] = $filename;
+					$data['status_log'] = 'A';
 				}else{
 					if($sts_crud == 'edit'){
 						if(isset($data['gambar_old'])){
@@ -178,8 +184,12 @@ class mbackend extends CI_Model{
 						}else{
 							$data['gambar'] = null;
 						}
+						$data['status_log'] = 'E';
+						$this->db->where('tbl_produk_id',$id);
+						$this->db->delete('tbl_log_data_transfer');
 					}elseif($sts_crud == 'add'){
 						$data['gambar'] = null;
+						$data['status_log'] = 'A';
 					}
 				}			
 				

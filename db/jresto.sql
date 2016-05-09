@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2016-04-26 22:04:24
+Date: 2016-05-09 11:49:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -93,7 +93,7 @@ CREATE TABLE `tbl_gerai_outlet` (
 -- ----------------------------
 -- Records of tbl_gerai_outlet
 -- ----------------------------
-INSERT INTO `tbl_gerai_outlet` VALUES ('1', 'Gerai Margo', null, null, null, null, null, null, null, null);
+INSERT INTO `tbl_gerai_outlet` VALUES ('1', 'Gerai Margo', null, '123', 'goyz', null, null, null, 'admin', '2016-05-06 23:02:11');
 INSERT INTO `tbl_gerai_outlet` VALUES ('2', 'Gerai Detos', null, null, null, null, null, null, null, null);
 
 -- ----------------------------
@@ -120,6 +120,26 @@ CREATE TABLE `tbl_harga_produk_peroutlet` (
 -- ----------------------------
 INSERT INTO `tbl_harga_produk_peroutlet` VALUES ('1', '1', '1', '40000', '0', '0', '40000', null, null, null, null);
 INSERT INTO `tbl_harga_produk_peroutlet` VALUES ('2', '2', '1', '50000', '0', '0', '50000', null, null, null, null);
+
+-- ----------------------------
+-- Table structure for `tbl_log_data_transfer`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_log_data_transfer`;
+CREATE TABLE `tbl_log_data_transfer` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tbl_produk_id` int(11) DEFAULT NULL,
+  `tbl_gerai_outlet_id` int(11) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_log_data_transfer
+-- ----------------------------
+INSERT INTO `tbl_log_data_transfer` VALUES ('6', '1', '1', '2016-05-09 11:25:43');
+INSERT INTO `tbl_log_data_transfer` VALUES ('7', '2', '1', '2016-05-09 11:25:43');
+INSERT INTO `tbl_log_data_transfer` VALUES ('8', '3', '1', '2016-05-09 11:25:43');
+INSERT INTO `tbl_log_data_transfer` VALUES ('9', '4', '1', '2016-05-09 11:26:05');
 
 -- ----------------------------
 -- Table structure for `tbl_member`
@@ -181,7 +201,7 @@ CREATE TABLE `tbl_perangkat_kasir` (
 -- ----------------------------
 -- Records of tbl_perangkat_kasir
 -- ----------------------------
-INSERT INTO `tbl_perangkat_kasir` VALUES ('1', 'Kasir 1 Gerai Margo City', '1', '4XKRYKNQVFVBO5PHOKUM', null, '2016-04-05 07:49:00', 'admin', null, null);
+INSERT INTO `tbl_perangkat_kasir` VALUES ('1', 'Kasir 1 Gerai Margo City', '1', '4XKRYKNQVFVBO5PHOKUM', '1', '2016-04-05 07:49:00', 'admin', null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_produk`
@@ -195,20 +215,25 @@ CREATE TABLE `tbl_produk` (
   `nama_produk` varchar(200) DEFAULT NULL,
   `deskripsi` text,
   `hpp` float DEFAULT NULL,
+  `margin` float DEFAULT NULL,
+  `harga_jual` float DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `create_by` varchar(20) DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   `update_by` varchar(100) DEFAULT NULL,
   `gambar` varchar(100) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
+  `status_log` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_produk
 -- ----------------------------
-INSERT INTO `tbl_produk` VALUES ('1', 'PRD-001', '2', null, 'Pizza Delicious', null, '40000', '2016-04-02 09:43:36', 'admin', '2016-04-02 10:02:15', 'admin', '20160402094336_PizzaDelicious.jpg', '0');
-INSERT INTO `tbl_produk` VALUES ('2', 'PRD-002', '1', null, 'Donat', null, '50000', null, null, null, null, null, null);
+INSERT INTO `tbl_produk` VALUES ('1', 'PRD-001', '2', null, 'Pizza Delicious', null, '40000', '50', '60000', '2016-04-02 09:43:36', 'admin', '2016-05-09 11:20:47', 'admin', '20160402094336_PizzaDelicious.jpg', '1', 'E');
+INSERT INTO `tbl_produk` VALUES ('2', 'PRD-002', '1', null, 'Donat', null, '50000', '10', '55000', null, null, '2016-05-09 10:43:28', 'admin', null, '1', 'A');
+INSERT INTO `tbl_produk` VALUES ('3', 'XXXX', '1', null, 'TESS', null, '10000', '20', '12000', '2016-05-09 10:42:50', 'admin', null, null, null, '1', 'A');
+INSERT INTO `tbl_produk` VALUES ('4', 'RRRE', '2', null, 'Tosss', null, '100000', '10', '110000', '2016-05-09 11:22:24', 'admin', null, null, null, '1', 'A');
 
 -- ----------------------------
 -- Table structure for `tbl_promo`
