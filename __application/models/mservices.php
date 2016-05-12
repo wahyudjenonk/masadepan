@@ -109,6 +109,32 @@ class mservices extends CI_Model {
 		echo json_encode($data);exit;
 		
 	}
+	
+	function simpan($p1,$data){
+		$this->db->trans_begin();
+		switch($p1){
+			case "tbl_penjualan_outlet":
+				$faktur=array();
+				foreach($data as $v){
+					if(!in_array($v['no_faktur_penjualan'], $faktur)){
+						$faktur[]=array('no_faktur_penjualan'=>$v['no_faktur_penjualan']);
+					}
+				}	
+				print_r($faktur);exit;
+				if($this->db->insert_batch($p1, $data)){
+					$this->db->trans_commit();
+					return json_encode($faktur);
+				}
+				
+			break;
+		}
+		if($this->db->trans_status() == false){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			return $this->db->trans_commit();
+		}
+	}
 
 	
 }

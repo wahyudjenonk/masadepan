@@ -15,7 +15,7 @@ class services extends CI_Controller {
 	
 	function get_service($p1=""){
 		//header('Content-Type: application/json');
-		//print_r($_POST);
+		//print_r($_POST);exit;
 		if($p1 == "get_produk"){
 			echo $this->mservices->getdata('produk');
 		}
@@ -24,12 +24,15 @@ class services extends CI_Controller {
 			echo $this->mservices->getdata('gerai');
 		}
 		if($p1 == "upload_penjualan"){
-			echo "AAA";exit;
-			//echo $this->mservices->getdata('produk');
-			$jsonStr = file_get_contents("php://input"); //read the HTTP body.
-			$json = json_decode($jsonStr,true);
+			//print_r($_POST['data']);exit;
+			$data=$this->input->post('data');
+			if($data){
+				$json = json_decode($data,true);
+				echo $this->mservices->simpan('tbl_penjualan_outlet',$json);
+			}
 			
-			print_r($json);exit;
+			
+			//echo "<pre>";print_r($json);echo "</pre>";exit;
 		}
 	}
 	
