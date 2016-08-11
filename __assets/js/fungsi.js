@@ -603,4 +603,16 @@ function konversi_pwd_text(id){
 	if($('input#'+id)[0].type=="password")$('input#'+id)[0].type = 'text';
 	else $('input#'+id)[0].type = 'password';
 }
-
+function hapus_file(mod,id,id_list){
+	loadingna();
+	$.post(host+'HapusFile',{mod:mod,id:id},function(r){
+		if(r==1){
+			winLoadingClose();
+			$('#'+id_list).remove();
+		}else{
+			console.log(r);
+			winLoadingClose();
+			$.messager.alert('Aldeaz',"Gagal Menghapus File",'error');
+		}
+	});
+}

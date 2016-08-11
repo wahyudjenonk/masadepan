@@ -2,29 +2,41 @@
 	<legend>Form Produk</legend>
 	<div class="span12">
 		<form class="form-horizontal" id="form_produk" url="{$host}backend/cruddata/{$main}" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="id" value="{$data.id|default:''}">
+			<input type="hidden" name="id" value="{$data.header.id|default:''}">
 			<input type="hidden" name="sts_crud" value="{$sts_crud|default:'add'}">
-			<input type="hidden" name="gambar_old" value="{$data.gambar|default:''}">
+			<!--input type="hidden" name="gambar_old" value="{$data.gambar|default:''}"-->
 			
-			{include file="template/input_form.html" type='text' label="Nama Produk" id="nama_produk" name="nama_produk" value="{$data.nama_produk|default:''}" }
-			{include file="template/input_form.html" type='text' label="Kode Produk" id="kode_produk" name="kode_produk" value="{$data.kode_produk|default:''}" }
+			{include file="template/input_form.html" type='text' label="Nama Produk" id="nama_produk" name="nama_produk" value="{$data.header.nama_produk|default:''}" }
+			{include file="template/input_form.html" type='text' label="Kode Produk" id="kode_produk" name="kode_produk" value="{$data.header.kode_produk|default:''}" }
 			{include file="template/input_form.html" type='select' label="Kategori" id="cl_kategori_id" name="cl_kategori_id" option={$cl_kategori_id|default:''} }
-			{include file="template/input_form.html" type='text' label="Harga Pokok Penjualan (HPP)" id="hpp" name="hpp" value="{$data.hpp|default:''}" }
-			{include file="template/input_form.html" type='text' label="Margin (%)" id="margin" name="margin" value="{$margin|default:''}"}
-			{include file="template/input_form.html" type='text' label="HPP + Margin" id="harga_jual" name="harga_jual" value="{$harga_jual|default:''}"  read="readonly"}
-			<div class="control-group">
-				<label class="control-label" for="form-field-1">Foto Produk</label>
-				<div class="controls">
-					{if $sts_crud == 'edit'}
-						<img src='{$host}__repo/produk/{$data.gambar}' width='200px' height='150px'>
-						<br/>
-						<br/>
-					{/if}
-					{include file="template/file_input.html" multiple='false' id="file_produk" }
+			{include file="template/input_form.html" type='text' label="Harga Dasar (HPP)" id="hpp" name="hpp" value="{$data.header.hpp|default:''}" style="height:30px;;width:20%"}
+			{include file="template/input_form.html" type='text' label="Pajak (%)" id="pajak" name="pajak" value="{$data.header.pajak|default:'10'}" style="height:30px;width:10%"}
+			{include file="template/input_form.html" type='text' label="Margin (%)" id="margin" name="margin" value="{$data.header.margin|default:''}" style="height:30px;width:10%"}
+			{include file="template/input_form.html" type='text' label="HPP + Margin" id="harga_jual" name="harga_jual" value="{$data.header.harga_jual|default:''}"  read="readonly" style="height:30px;width:20%"}
+			{include file="template/upload.html" label="Upload Gambar" name="foto_produk" id_na="foto_produk" mod="produk" id_batal="batal_{$main}" msg="Data Input Produk Sudah Tersimpan"}
+			{include file="template/input_form.html" type='select' label="Status" id="status" name="status" option={$status|default:''} }
+			{if $sts_crud eq 'edit'}
+				<div class="control-group">
+					<label class="control-label" for="form-field-1">&nbsp;</label>
+					<div class="controls">
+						<div class="span8">
+							<div class="row">
+							{foreach from=$data.foto item=i}
+								  <div class="span3" id="list_{$acak}_{$i.id}">
+									<div class="thumbnail">
+									  <img src="{$host}__repo/produk/{$i.foto_produk|default:''}" alt="...">
+									   <div class="caption">
+										<center>
+										<a href="javascript:void(0);" onclick="hapus_file('foto_produk',{$i.id},'list_{$acak}_{$i.id}')" class="btn btn-primary" role="button">Hapus</a>
+										</center>
+									   </div>
+									</div>
+								  </div>
+							{/foreach}
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>		
-			{if $sts_crud == 'edit'}
-				{include file="template/input_form.html" type='select' label="Status" id="status" name="status" option={$status|default:''} }
 			{/if}
 			
 			<div class="control-group">
@@ -38,9 +50,47 @@
 </fieldset>
 
 <script>
+	var upl_vid=0;
+	$('#hpp_{$acak}').numberbox({ groupSeparator:',' });
+	$('#pajak_{$acak}').numberbox({ groupSeparator:',' });
+	$('#harga_jual_{$acak}').numberbox({ groupSeparator:',' });
+	$('#margin_{$acak}').numberbox({
+		groupSeparator:',',
+		onChange:function(){
+			if($('#hpp_{$acak}').numberbox('getValue')!=""){
+				var untung=((parseFloat($('#hpp_{$acak}').numberbox('getValue'))*parseFloat($(this).val()))/100);
+				var pajak=((parseFloat($('#hpp_{$acak}').numberbox('getValue'))*parseFloat($('#pajak_{$acak}').numberbox('getValue')))/100);
+				var harga_jual=(parseFloat($('#hpp_{$acak}').numberbox('getValue')) + untung + pajak);
+				$('#harga_jual_{$acak}').numberbox('setValue',harga_jual);
+				console.log(harga_jual);
+			}
+		}
+	});
 	$('#simpan_produk').bind('click', function(){
 		submit_form('form_produk',function(r){
-			if(r==1){
+			console.log(r)
+			var js=JSON.parse(r);
+			if(js.msg==1){
+				if(uploadObj_foto_produk_{$acak}.getFileCount() > 0){
+					uploadObj_foto_produk_{$acak}.update({ dynamicFormData:function()
+					{
+						var data ={ tbl_produk_id:js.data,
+									mod:'tbl_foto_produk'
+								  }
+						return data;
+					} 
+					});
+					uploadObj_foto_produk_{$acak}.startUpload();
+				}else{
+					$.messager.alert('JResto Soft',"Data Tersimpan",'info');
+					$('#batal_{$main}').trigger('click');
+					grid_nya.datagrid('reload');
+				}
+			}else{
+				$.messager.alert('JResto Soft', "Gagal", 'error');
+				console.log(r);
+			}
+			/*if(r==1){
 				$.messager.alert('JResto Soft',"Data Tersimpan",'info');
 				$('#grid_{$main}').datagrid('reload');
 				$('#grid_nya_{$main}').show();
@@ -50,19 +100,14 @@
 			else{
 				$.messager.alert('JResto Soft', "Gagal", 'error');
 				console.log(r);
-			}
+			}*/
 		});
 	});
 	$('#batal_{$main}').click(function(){
 		$('#grid_nya_{$main}').show();
 		$('#detil_nya_{$main}').html('').hide();
 	});	
-	$('#margin').on('change',function(){
-		if($('#hpp').val()!=""){
-			var untung=((parseFloat($('#hpp').val())*parseFloat($(this).val()))/100);
-			var harga_jual=(parseFloat($('#hpp').val()) + untung);
-			$('#harga_jual').val(harga_jual);
-			console.log(harga_jual);
-		}
+	$('#margin_{$acak}').on('change',function(){
+		
 	});
 </script>

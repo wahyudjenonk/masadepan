@@ -26,21 +26,45 @@
 		
 			<legend>Form Registrasi</legend>
 			<div class="span12">
-				<form class="form-horizontal" id="form_reg" url="{$host}login/simpan_reg" method="post" enctype="multipart/form-data">
-					{include file="template/input_form.html" type='text' label="UserName" id="nama_user" name="nama_user" class="validasi"}
-					{include file="template/input_form.html" type='pwd' label="Password" id="password" name="password" class="validasi"}
-					{include file="template/input_form.html" type='pwd' label="Ulangi Password" id="password2" name="password2" class="validasi"}
-					{include file="template/input_form.html" type='text' label="Nama Lengkap" id="nama_lengkap" name="nama_lengkap" class="validasi"}
-					{include file="template/input_form.html" type='text' label="Email" id="email" name="email" class="validasi_email"}
-					{include file="template/input_form.html" type='select' label="Jenis Kelamin" id="jenis_kelamin" name="jenis_kelamin" option={$opt|default:''} }
-					{include file="template/input_form.html" type='textarea' label="Alamat" id="alamat" name="alamat" class="validasi"}
-					{include file="template/input_form.html" type='text' label="Telp." id="tlp" name="tlp" class="validasi"}
-					<div class="control-group">
-						<label class="control-label" for="form-field-1"></label>
-						<div class="controls">
-							{include file="template/button_save.html" id_simpan="register" id_batal="batal" text_simpan="Daftar" text_batal="Kembali" }
-						</div>
+				<form class="form-horizontal" id="form_reg" url="{$host}Registrasi" method="post" enctype="multipart/form-data">
+					<div class="span7">
+						<div class="row" id="pwd-container">
+						{include file="template/input_form.html" type='text' label="Email" id="email" name="email" class="validasi_email" style="height:30px;width:100%;"}
+						{*{include file="template/input_form.html" type='text' label="UserName" id="nama_user" name="nama_user" class="validasi" style="height:30px;"}*}
+						{include file="template/input_form.html" type='pwd' label="Password" id="password" name="password" class="validasi" style="height:30px;width:50%;" msg="Y"}
+						{include file="template/input_form.html" type='pwd' label="Ulangi Password" id="password2" name="password2" class="validasi" style="height:30px;width:50%;"}
+						{include file="template/input_form.html" type='text' label="Nama Lengkap" id="nama_lengkap" name="nama_lengkap" class="validasi" style="height:30px;width:100%;"}
+						{include file="template/input_form.html" type='text' label="Brand Resto" id="brand" name="brand" class="validasi" style="height:30px;width:100%;"}
+						{include file="template/input_form.html" type='text' label="Jml. Outlet" id="jml_outlet" name="jml_outlet" class="validasi angka" style="height:30px;width:10%;"}
+						{include file="template/input_form.html" type='select' label="Jenis Kelamin" id="jenis_kelamin" name="jenis_kelamin" option={$opt|default:''} }
+						{include file="template/input_form.html" type='textarea' label="Alamat" id="alamat" name="alamat" class="validasi" style="width:100%;"}
+						{include file="template/input_form.html" type='text' label="Telp." id="tlp" name="tlp" class="validasi" style="height:30px;width:70%;"}
+						<div class="control-group">
+							<label class="control-label" for="form-field-1"></label>
+							<div class="controls">
+								{include file="template/button_save.html" id_simpan="register" id_batal="batal" text_simpan="Daftar" text_batal="Kembali" }
+							</div>
+						</div>	
+						</div>	
 					</div>	
+					<div class="span4">
+						<fieldset>
+							<h2>PROMO PENDAFTARAN :</h2>
+							<p>Dapatkan Promo Menarik dari kami <br>
+								<ol>
+									<li>
+										Dengan Registrasi Lebih Dari Satu Outlet, Maka Anda akan mendapatkan gratis biaya administrasi 1 Outlet
+									</li>
+									<li>
+										Jika Registrasi Satu Outlet Maka Anda akan mendapatkan gratis selama 6 bulan 
+									</li>
+								</ol>
+								Cepat Daftarkan Resto Anda, masih banyak promo lainnya.<br><br><br><br>
+								Terima Kasih.Salam Sukses.<br><br>
+								<a href="http://jingga.co.id">Jingga.co.id</a>
+							</p>
+						</fieldset>
+					</div>
 				</form>
 			</div>
 
@@ -58,6 +82,9 @@
 	<script src="{$host}__assets/js/markdown/markdown.min.js"></script>
 	<script src="{$host}__assets/js/markdown/bootstrap-markdown.min.js"></script>
 	<script src="{$host}__assets/js/jquery.hotkeys.min.js"></script>
+	<script type="text/javascript" src="{$host}__assets/js/zxcvbn.js"></script>
+    <script type="text/javascript" src="{$host}__assets/js/pwstrength.js"></script>
+    <script type="text/javascript" src="{$host}__assets/js/i18next.js"></script>
 </body>
 </html>
 <script>
@@ -65,19 +92,47 @@
 		var msg;
 		var mode_tranport;
 		$(".validasi").validatebox({ required:true }); 
+		$(".angka").numberbox(); 
 		$(".validasi_email").validatebox({ required:true,validType: 'email' }); 
+		
+		var options = {};
+            options.ui = {
+                container: "#pwd-container",
+                showVerdictsInsideProgressBar: true,
+                viewports: {
+                    progress: ".pwstrength_viewport_progress"
+                },
+                showErrors: true
+            };
+            options.common = {
+                debug: true,
+                onLoad: function () {
+                   // $('#messages').html(i18next.t('start'));
+                }
+            };
+            $('#password_{$acak}').pwstrength(options);
+
+            $('.container').find('label').html(i18next.t('label')).end()
+                           .find('h1').html(i18next.t('pageTitle')).end()
+                           .find('a').html(i18next.t('goBack'));
+      //  });
+		
+		
 	});
 	$('#register').bind('click', function(){
 		if ($('#form_reg').form('validate')){
-			var pwd=$('#password').val();
-			if(pwd.length >= 6){
-				if(pwd==$('#password2').val()){
-					$.post('{$host}login/cek_user',{ usr:$('#nama_user').val(),email:$('#email').val() },function(resp){
+			var listItems = $(".error-list").children();
+			var count = listItems.length;
+			console.log(count);
+			var pwd=$('#password_{$acak}').val();
+			if(count < 1){
+				if(pwd==$('#password2_{$acak}').val()){
+					$.post('{$host}CekUser',{ email:$('#email_{$acak}').val() },function(resp){
 						if(resp==1){
 							submit_form('form_reg',function(r){
 								if(r==1){
 									//$.messager.alert('JResto Soft',"Data Tersimpan",'info');
-									window.location.href='{$host}login/register/notif/'+btoa($('#nama_user').val());
+									window.location.href='{$host}Notifikasi/'+btoa($('#email_{$acak}').val());
 								}
 								else{
 									$.messager.alert('JResto Soft', "Gagal", 'error');
@@ -86,7 +141,7 @@
 							});
 						}
 						else{
-							$.messager.alert('JResto Soft',"User Name atau Email Sudah Terdaftar",'info');
+							$.messager.alert('JResto Soft',"User Email Sudah Terdaftar",'info');
 						}
 					});
 					
@@ -96,7 +151,7 @@
 				}
 			}
 			else{
-				$.messager.alert('JResto Soft',"Password Harus Lebih dari 6 karakter",'info');
+				$.messager.alert('JResto Soft',"Perhatikan Pesan Password",'info');
 			}
 		}else{
 			$.messager.alert('JResto Soft',"Isi Data Yang Kosong",'info');

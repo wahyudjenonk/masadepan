@@ -3,22 +3,27 @@
 	<label class="control-label" for="form-field-1">{$label}</label>
 	<div class="controls">
 	{if $type eq 'select'}
-		<select id="form-field-select-1" id="{$id}" name="{$name}" class="{$class|default:''}">
+		<select id="form-field-select-1" id="{$id}_{$acak}" name="{$name}" class="{$class|default:''}">
 			{$option|default:''}
 		</select>
 	{elseif $type eq 'text'}
-		<input {$readonly} type="text" class="span8 {$class|default:''}" id="{$id}" name="{$name}" value="{$value|default:''}" />
+		<input {$readonly} type="text" style="{$style|default:'width:80%'}" class="form-control {$class|default:''}" id="{$id}_{$acak}" name="{$name}" value="{$value|default:''}" />
 	{elseif $type eq 'pwd'}
 		 <div class="input-group">
-            <input type="password" class="span4 {$class|default:''}" id="{$id}" name="{$name}" value="{$value|default:''}" />
-            <span class="input-group-addon">
-				<a href="javascript:void(0);" onclick="konversi_pwd_text('{$id}')">Show</a>
-			</span> 
+            <input type="password" class="span4 {$class|default:''}" id="{$id}_{$acak}" name="{$name}" value="{$value|default:''}" style="{$style|default:''}" />
+            <!--span class="input-group-addon">
+				<a href="javascript:void(0);" onclick="konversi_pwd_text('{$id}_{$acak}')">Show</a>
+			</span-->
+			{if $msg|default:'' neq ''}
+ 			<span class="input-group-addon">
+				 <div id="messages" class="col-sm-12"></div>
+			</span>
+			{/if}
            </div>
 		
 		
 	{elseif $type eq 'textarea'}
-		<textarea class="span8 {$class|default:''}" id="{$id}" name="{$name}">{$value|default:''}</textarea>
+		<textarea class="{$class|default:''} form-control" id="{$id}_{$acak}" name="{$name}" style="{$style|default:''}">{$value|default:''}</textarea>
 	{/if}
 	</div>
 </div>

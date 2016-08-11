@@ -173,12 +173,12 @@ class lib {
 					<h1>Aktivasi USER Jingga Resto</h1>
 					<br/>
 					Berikut User dan password yang anda registrasikan <br>
-					UserName : ".$p1."<br>
-					Password : ".$ci->encrypt->decode($p2)."<br>
+					UserName : ".$email."<br>
+					Password : ".$ci->encrypt->decode($p1)."<br>
 					silahkan klik link dibawah ini untuk melakukan aktivasi user. terima kasih atas partisipasinya
 					<br/>
 					<br/>
-					<a href='".$ci->config->item('base_url')."login/register/act/".base64_encode($p1)."'>aktivasi</a>
+					<a href='".$ci->config->item('base_url')."Aktivasi/".base64_encode($email)."'>aktivasi</a>
 				";
 			break;
 			case "email_reservasi":

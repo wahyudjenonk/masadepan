@@ -16,6 +16,7 @@ class backend extends CI_Controller {
 		$this->smarty->assign('auth', $this->auth);
 		$this->load->model('mbackend');
 		$this->load->library('lib');
+		$this->smarty->assign("acak", md5(date('H:i:s')));
 	}
 
 	public function index(){		
@@ -44,7 +45,7 @@ class backend extends CI_Controller {
 		switch($type){
 			case "get-form":
 				$sts_crud = $this->input->post('editstatus');
-				$this->smarty->assign("acak", md5(date('YmdHis').'ind') );				
+				//$this->smarty->assign("acak", md5(date('YmdHis').'ind') );				
 				
 				if($sts_crud == 'edit'){
 					$table = $this->input->post('ts');
@@ -58,6 +59,10 @@ class backend extends CI_Controller {
 					case "produk":
 						$this->smarty->assign('cl_kategori_id', $this->lib->fillcombo('cl_kategori_produk', 'return', ($sts_crud == 'edit' ? $data['cl_kategori_id'] : "") ) );
 						$this->smarty->assign('status', $this->lib->fillcombo('status', 'return', ($sts_crud == 'edit' ? $data['status'] : "") ) );
+						if($sts_crud == 'edit'){
+							$data = $this->mbackend->getdata('tbl_produk','get');
+							$this->smarty->assign('data', $data);
+						}
 					break;
 					case "kategori_produk":
 						$this->smarty->assign('status', $this->lib->fillcombo('status', 'return', ($sts_crud == 'edit' ? $data['status'] : "") ) );
@@ -102,22 +107,65 @@ class backend extends CI_Controller {
 			}
 			
 		}
-		
-		/*
-		if(isset($post['upload_na'])){
-			if(isset($post['upload_na']))unset($post['upload_na']);
-			if(isset($post['modul_detil']))unset($post['modul_detil']);
-			$id_header=$this->mbackend->simpan_data($p1, $post,'get_id');
-			
-			unset($_FILES['file_icon_foto_services']);
-			unset($_FILES['file_icon_foto_product']);
-			
-			echo $this->upload($this->input->post('modul_detil'), $id_header, $post);
-		}else{
-		}
-		*/
 		echo $this->mbackend->simpan_data($p1, $post);
 	}
-
+	function upload(){
+		//print_r($_POST);exit;
+		//echo microtime();exit;
+		$t = microtime(true);
+		$micro = sprintf("%06d",($t - floor($t)) * 1000000);
+		$d = new DateTime( date('Y-m-d H:i:s.'.$micro, $t) );
+		$mod=$this->input->post('mod');
+		$data=array('create_date'=>date('Y-m-d H:i:s'),
+					'create_by'=>$this->auth['email']
+		);
+		switch($mod){
+			case "tbl_foto_produk":
+				$id=$this->input->post('tbl_produk_id');
+				
+				$upload_path='__repo/produk/';
+				$data['tbl_produk_id']=$id;
+				$tbl="tbl_foto_produk";
+				$object='file_nya';
+				if(isset($_FILES['file_nya'])){
+					$file=$_FILES['file_nya']['name'];
+					$nameFile =$d->format("YmdHisu");// $this->string_sanitize(pathinfo($file, PATHINFO_FILENAME));
+						$upload=$this->lib->uploadnong($upload_path, $object, $nameFile);
+						if($upload){
+							$data['foto_produk']=$upload;
+							$_POST['sts_crud']='add';
+							echo $this->mbackend->simpan_data($tbl,$data);
+						}else{
+							echo 2;
+						}
+				}
+			break;
+			
+		}
+		
+		
+		
+		//echo $upload;
+	}
+	function hapus_file(){
+		if($this->auth){
+			$mod=$this->input->post('mod');
+			switch($mod){
+				case "foto_produk":
+					$data=$this->mbackend->getdata('tbl_foto_produk','row_array');
+					//print_r($data);exit;
+					
+					if(isset($data['foto_produk'])){
+						$path='__repo/produk/';
+						chmod($path.$data['foto_produk'],0777);
+						unlink($path.$data['foto_produk']);
+						$_POST['id']=$data['id'];
+						$_POST['sts_crud']='delete';
+						echo $this->mbackend->simpan_data('tbl_foto_produk',$data);
+					}
+				break;
+			}
+		}
+	}
 	
 }

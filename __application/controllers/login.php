@@ -7,6 +7,7 @@ class Login extends CI_Controller {
 		$this->load->library('encrypt');
 		$this->host	= $this->config->item('base_url');
 		$this->smarty->assign('host',$this->host);
+		$this->smarty->assign("acak", md5(date('H:i:s')));
 	}
 	
 	public function index(){
@@ -54,11 +55,11 @@ class Login extends CI_Controller {
 		if($p1=="notif"){
 			$this->load->library('lib');
 			$data=$this->mbackend->getdata('cek_user','get',$usr);
-			$this->lib->kirimemail("email_notif", $data['email'],$data['nama_user'],$data['password']);
+			$this->lib->kirimemail("email_notif", $data['email'],$data['password']);
 			return $this->smarty->display('registrasi/notif.html');
 		}else if($p1=="act"){
 			$data=$this->mbackend->getdata('cek_user','get',$usr);
-			if($this->mbackend->simpan_reg("act",$data['nama_user'])==1){
+			if($this->mbackend->simpan_reg("act",$data['email'])==1){
 				return $this->smarty->display('registrasi/act.html');
 			}
 		}
